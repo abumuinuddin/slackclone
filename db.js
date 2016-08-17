@@ -1,25 +1,78 @@
 
-exports.getChannels = getChannels;
 exports.getUsersJSON = getUsersJSON;
+exports.getChannels = getChannels;
+exports.getMessages = getMessages;
 
-function getChannels(conn, username){
 
+function getMessages(db, channelId) {
 
-}
-
-function getUsersJSON(conn, userId) {
     return new Promise((resolve, reject) => {
-        var query = "SELECT USERID, NAME, PASSWORD FROM USER "
-         + "  WHERE USERID = '" + userId + "'";
-        var users = [];
-        conn.serialize(() => {
-            conn.each(
-                query, 
+    
+        var query = "SELECT * FROM MESSAGE ";
+         //+ "  WHERE CHANNELID = '" + channelId + "'";
+        var messages = [];
+
+            db.each(query, 
                 function(err, row) {
                     if (err) {
                         reject(err);
                     } else {
-                        users.push(row.FOLLOWERID);
+                        messages.push(row);
+                    }
+                },
+                function (err, nRows) {
+                    if (err) {
+                        reject(err);
+                    } else {
+                        resolve(JSON.stringify(messages));
+                    }
+                }
+        );
+    });
+
+}
+
+
+function getChannels(db, channelId) {
+
+    return new Promise((resolve, reject) => {
+    
+        var query = "SELECT * FROM CHANNEL ";
+         //+ "  WHERE CHANNELID = '" + channelId + "'";
+        var channels = [];
+
+            db.each(query, 
+                function(err, row) {
+                    if (err) {
+                        reject(err);
+                    } else {
+                        channels.push(row);
+                    }
+                },
+                function (err, nRows) {
+                    if (err) {
+                        reject(err);
+                    } else {
+                        resolve(JSON.stringify(channels));
+                    }
+                }
+        );
+    });
+
+}
+
+function getUsersJSON(db, userId) {
+    return new Promise((resolve, reject) => {
+        var query = "SELECT * FROM USER "
+         + "  WHERE USERID = '" + userId + "'";
+        var users = [];
+
+            db.each(query, 
+                function(err, row) {
+                    if (err) {
+                        reject(err);
+                    } else {
+                        users.push(row);
                     }
                 },
                 function (err, nRows) {
@@ -29,22 +82,25 @@ function getUsersJSON(conn, userId) {
                         resolve(JSON.stringify(users));
                     }
                 }
-            );
-        });
+        );
     });
 }
 
-/*
-var p = getFollowersJSON('abu');
-p.then(
-    (val) => {
-        console.log(val);
-    },
-    (err) => {
-        console.log('oh no!', err);
-    }
-);
-*/
+//TEAM, TEAMUSER, CHANNEL, MESSAGE
+
+
+// var p = getUsersJSON(conn, 'abu');
+// p.then(
+//     (val) => {
+//         console.log("val ...."+ val);
+//     },
+//     (err) => {
+//         console.log('oh no!', err);
+//     }
+// );
+
+
+
 
 
 

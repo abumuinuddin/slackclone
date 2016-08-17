@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+
+<!-- define angular app -->
+<html ng-app="slackCloneApp">
+
+<head>
+  <!-- SCROLLS -->
+  <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.0.0/css/font-awesome.css" />
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.no-icons.min.css">
+
+
+  <!-- SPELLS -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.8/angular.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular-route.js"></script>
+
+
+  <script src="script.js"></script>
+</head>
+
+<!-- define angular controller -->
+<body ng-controller="mainController">
+
+  <nav class="navbar navbar-default">
+    <div class="container">
+      <div class="navbar-header">
+        <a class="navbar-brand" href="/">Angular Slack Example</a>
+      </div>
+      
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="#/"><i class="fa fa-home"></i> Home</a></li>
+        <!--
+        <li><a href="#channels"><i class="fa fa-gift"></i> Channels</a></li>
+        <li><a href="#messages"><i class="fa fa-shopping-cart"></i> Messages</a></li> -->
+      </ul>
+    </div>
+  </nav>
+
+  <div id="main">
+  
+    <!-- angular templating -->
+		<!-- this is where content will be injected -->
+    <div ng-view></div>
+    
+  </div>
+  
+  <footer class="text-center">
+    <i class="fa fa-copyright"></i> <span>2016 Abu Muinuddin - Angular Slack Clone </span>
+  </footer>
+  
+</body>
+
+</html>

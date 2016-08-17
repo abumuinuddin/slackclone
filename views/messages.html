@@ -1,0 +1,25 @@
+<H1>Messages</H1>
+<table border="1">
+<tr>
+    <td>Message ID</td>
+    <td>User Name</td>
+    <td>Channel</td>
+    <td>Content</td>
+    <td>Date</td>
+
+</tr>
+<tr ng-repeat="message in messages">
+    <td>{{ message.MESSAGEID }}</td>
+    <td>{{ message.USERID }}</td>
+    <td>{{ message.CHANNELID }}</td>
+    <td>{{ message.CONTENT}}</td>
+    <td>{{ message.DATE}}</td>
+</tr>
+</table>
+
+<!--
+MESSAGEID, USERID, CHANNELID, CONTENT, DATE
+<ul>
+    <li ng-repeat="message in messages"><a href="#/{{message.CHANNELID }}"><i class="icon-fixed-width icon-book"></i> {{channel.CHANNELID}}</a></li>
+</ul> -->
+
