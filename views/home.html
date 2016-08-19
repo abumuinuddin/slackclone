@@ -30,9 +30,18 @@
                 </tr>
                 <tr >
                     <td colspan="5" >
+                        <!--
                         <textarea cols="300" rows="1" ng-model="enteredMessage" ></textarea>
                         <span ng-show="addMessageError">Username is required</span>
                         <input type="submit" value="add"><br/>
+                        -->
+                        <textarea cols="300" rows="1" ng-model="enteredMessage" ></textarea>
+                        <input type="submit" value="add"><br/>
+                        
+                        <div  ng-class="{ 'has-error': form.enteredMessage.$dirty && form.enteredMessage.$error.required }">
+                            <span style="color:red" ng-show="showAddError">Message cannot be left empty.</span>
+                        </div>
+
                     </td>
                 </tr>
             </table>

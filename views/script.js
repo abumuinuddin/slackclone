@@ -96,17 +96,17 @@
             console.log( "dataservice.findMessages ...", JSON.stringify(messages));
         });
 
-        $scope.addMessageError = false;
+        $scope.showAddError = false;
         $scope.enteredMessage = '';
         $scope.addName = function() {
             console.log("input message -", $scope.enteredMessage);
 
             if ($scope.enteredMessage.trim() === "") {
-                 $scope.addMessageError = true;
+                 $scope.showAddError = true;
                 return;
             }
-
-            $scope.addMessageError = false;
+            $scope.showAddError = false;
+            
             message = {"message":$scope.enteredMessage,"userid":6,"channelid":1,"date": new Date()};
 
             dataservice.insertMessage(message, function(val, err){
