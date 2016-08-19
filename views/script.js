@@ -104,10 +104,18 @@
             cachedMessages=messages;
             console.log( "dataservice.findMessages ...", JSON.stringify(messages));
         });
-        
+
+        $scope.addMessageError = false;
+        $scope.enteredMessage = '';
         $scope.addName = function() {
             console.log("input message -", $scope.enteredMessage);
-            var themessage =[];
+
+            if ($scope.enteredMessage.trim() === "") {
+                 $scope.addMessageError = true;
+                return;
+            }
+
+            $scope.addMessageError = false;
             message = {"message":$scope.enteredMessage,"userid":6,"channelid":1,"date": new Date()};
             dataservice.insertMessage(message, function(val, err){
                 //console.log("dataservice.createMessage .. :", +$scope.enteredMessage + ":" + new Date());
