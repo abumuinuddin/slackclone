@@ -1,22 +1,30 @@
 <H1>Messages</H1>
-<table border="1">
-<tr>
-    <td>Message ID</td>
-    <td>User Name</td>
-    <td>Channel</td>
-    <td>Content</td>
-    <td>Date</td>
 
-</tr>
-<tr ng-repeat="message in messages">
-    <td>{{ message.MESSAGEID }}</td>
-    <td>{{ message.USERID }}</td>
-    <td>{{ message.CHANNELID }}</td>
-    <td>{{ message.CONTENT}}</td>
-    <td>{{ message.DATE}}</td>
-</tr>
-</table>
+<form ng-submit="addName()">
+    <table border="1">
+        <tr>
+            <!--<td>Message ID</td>-->
+            <td>User Name</td>
+            <td>Channel</td>
+            <td>Content</td>
+            <td>Date</td>
 
+        </tr>
+        <tr ng-repeat="message in messages">
+            <!-- <td>{{ message.MESSAGEID }}</td> -->
+            <td>{{ message.USERID }}</td>
+            <td>{{ message.CHANNELID }}</td>
+            <td>{{ message.CONTENT}}</td>
+            <td>{{ message.DATE}}</td>
+        </tr>
+        <tr>
+            <td colspan="4">
+                <input type="text" ng-model="enteredName">
+                <input type="submit" value="add">
+            </td>
+        </tr>
+    </table>
+</form>
 <!--
 MESSAGEID, USERID, CHANNELID, CONTENT, DATE
 <ul>

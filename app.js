@@ -1,9 +1,11 @@
 
 var express = require('express');
+var bodyParser = require('body-parser');
 var sqlite3 = require('sqlite3').verbose();
 var fs = require('fs');
 var app = express();
-var dbservice = require('./db.js');
+app.use(bodyParser.json());
+var dbservice = require('./slackservice.js');
 
 var filename = 'slackclone.db';
 var dbexists = false;
@@ -51,8 +53,8 @@ app.use('/views', express.static(__dirname + '/views'));
 
 app.get('/getChannels/:id/', function (req, res) {
     //console.log("/getChannels/req.params.id..." + req.params.id);
-
-    var pChannel = dbservice.getChannels(db, req.params.id); //'rubychannel'
+                             
+    var pChannel = dbservice.getChannels(db); //'rubychannel'
     pChannel.then(
         (val) => {
             //console.log("getChannels in appjs ....: "+ val);
@@ -66,12 +68,35 @@ app.get('/getChannels/:id/', function (req, res) {
 });
 
 app.get('/getMessages', function (req, res) {
-    //console.log("/getMessages/req.params.id..." + req.params.id);
+    //console.log("/getMessages/req.params.id...", req.params.id);
 
-    var pChannel = dbservice.getMessages(db, req.params.id); //'rubychannel'
+    var pChannel = dbservice.getMessages(db); //'rubychannel'
     pChannel.then(
         (val) => {
-           // console.log("getMessages in appjs ....: "+ val);
+            //console.log("getMessages in appjs ....: ", val);
+            res.send(val);
+        },
+        (err) => {
+            console.log('oh no!', err);
+        }
+    );
+
+});
+
+app.post('/insertMessage', function (req, res) {
+    //console.log("/getMessages/req.params.id..." + req.params.id);
+    //console.log("req.body....:", req.body.enteredName);
+    //console.log("req.body:", req.body.message + ":" + req.body.userid + ":" + req.body.channelid + ":" + req.body.date);
+    var pInsertMessage = dbservice.createMessage
+                                (db, 
+                                    req.body.message, 
+                                    req.body.userid, 
+                                    req.body.channelid, 
+                                    req.body.date
+                                );
+    pInsertMessage.then(
+        (val) => {
+            //console.log("getMessages in appjs ....: ", val);
             res.send(val);
         },
         (err) => {

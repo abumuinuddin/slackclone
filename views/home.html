@@ -1,1 +1,41 @@
-<h6>home page </h6>
+
+<div class="container">
+  <div class="row" >
+    <div class="col-sm-2">
+        <ul class="nav nav-list">
+            <li class="active"><a href="#"><i class="icon-fixed-width icon-home"></i> Slack   Channels</a></li>
+            <li ng-repeat="channel in channels | orderBy:'channelname'" ><a href="#/messages/{{channel.id }}"><i class="icon-fixed-width icon-book"></i> {{channel.channelname}}</a></li>
+        </ul>
+    </div>
+    <div class="col-sm-7" >
+
+        <!--
+        <ul class="nav nav-list">
+            <li class="active"><a href="#"><i class="icon-fixed-width icon-home"></i> Messages</a></li>
+            <li ng-repeat="channel in channels"><a href="#/messages/{{channel.CHANNELID }}"><i class="icon-fixed-width icon-book"></i> {{channel.CHANNELID}}</a></li>
+            <li ng-repeat="channel in channels"><a href="#?channel={{channel.CHANNELID }}"><i class="icon-fixed-width icon-book"></i> {{channel.CHANNELID}}</a></li>
+        </ul>-->
+
+        <form ng-submit="addName()">
+            <table border="1" width="500">
+                <tr>
+                    <th>User Name</th>
+                    <th>Content</th>
+                    <th>Date</th>
+                </tr>
+                <tr ng-repeat="message in messages">
+                    <td>{{ message.username }}</td>
+                    <td>{{ message.message}}</td>
+                    <td>{{ message.date}}</td>
+                </tr>
+                <tr >
+                    <td colspan="5" >
+                        <textarea cols="300" rows="1" ng-model="enteredMessage" ></textarea>
+                        <input type="submit" value="add"><br/>
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </div>
+  </div>
+</div>
