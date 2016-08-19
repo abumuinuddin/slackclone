@@ -8,7 +8,7 @@ var chaiAsPromised = require("chai-as-promised");
 chai.use(chaiAsPromised); 
 chai.should(); 
 
-var conn = new sqlite3.Database('slackclone.db');
+var conn = new sqlite3.Database('test.db');
 
 describe('Test SlackService', () => {
     //this.timeout(15000);
@@ -271,18 +271,18 @@ describe('Test SlackService', () => {
         var channelId = 1;
         var date = '2016-08-18 14:45:00';
         //var expected = 3;
-        var expected = {"id":3,"message":"Test Message","userid":userId,"channelid":channelId,"date":date};
+        var expected = {"id":3,"message":"Test Message","username":"charles","channelid":channelId,"date":date};
         slackService.createMessage(conn, message, userId, channelId, date).should.eventually.equal(JSON.stringify(expected)).notify(done);
     });
 
     it('given message id, retrieve that message from the database', function(done) {
         var messageId = 1;
-        var expected = {"id":1,"message":"Hi Swarup!","userid":1,"channelid":1,"date":"2016-08-11 14:45:00"};
+        var expected = {"id":1,"message":"Hi Swarup!","username":"shuvo","channelid":1,"date":"2016-08-11 14:45:00"};
         slackService.getMessageById(conn, messageId).should.eventually.equal(JSON.stringify(expected)).notify(done);
     });
 
     it('retrieve all the messages', function(done) {
-        var expected = [{"id":1,"message":"Hi Swarup!","userid":1,"channelid":1,"date":"2016-08-11 14:45:00"},{"id":2,"message":"Mocha testing....","userid":1,"channelid":2,"date":"2016-08-05 12:46:00"}];
+        var expected = [{"id":1,"message":"Hi Swarup!","username":"shuvo","channelid":1,"date":"2016-08-11 14:45:00"},{"id":2,"message":"Mocha testing....","username":"shuvo","channelid":2,"date":"2016-08-05 12:46:00"}];
         slackService.getMessages(conn).should.eventually.equal(JSON.stringify(expected)).notify(done);
     });
     
@@ -354,3 +354,4 @@ describe('Test SlackService', () => {
 //         //actual.must.eql(expected);
 //     });
 // });
+

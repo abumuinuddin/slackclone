@@ -6,7 +6,7 @@
 		$routeProvider
 
 			// route for the home page
-            .when ('/logon', {
+            .when ('/', {
 				templateUrl : './logon.html',
 				controller  : 'logonController'
             })
@@ -14,27 +14,9 @@
 				templateUrl : './home.html',
 				controller  : 'mainController'
 			}).otherwise({
-                redirect: './home.html'
+                redirect: './logon.html'
             });
-            
 
-            // /login
-
-            // /messages/:channel
-            // .otherwise() 
-
-            
-            /*
-			// route for the about page
-			.when('/channels', {
-				templateUrl : './channels.html',
-				controller  : 'channelsController'
-			})
-			// route for the contact page
-			.when('/:channelId', {
-				templateUrl : './messages.html',
-				controller  : 'messagesController'
-			});*/
 	});
 
     slackCloneApp.factory('dataservice', function($http){
@@ -54,6 +36,14 @@
             cache: true
           }).success(callback);
         }
+        
+        function findUser(data, callback){
+          $http({
+            method: 'GET',
+            url: 'http://localhost:3000/findUser',
+            cache: true
+          }).success(callback);
+        }
 
         function insertMessage(message, callback){
           $http({
@@ -66,7 +56,6 @@
         return {
             listchannels: getChannelData,
             listMessages: getMessagelData,
-
             findMessages: function(channelid, callback){
                 //console.log("channel id : " + channelid);
                 getMessagelData(function(data) {
@@ -76,7 +65,9 @@
                     callback(messages);
                 });
             },
-            insertMessage: insertMessage
+            insertMessage: insertMessage,
+            findUser: findUser
+            
         };
         
     });
@@ -108,7 +99,7 @@
         $scope.addName = function() {
             console.log("input message -", $scope.enteredMessage);
             var themessage =[];
-            message = {"message":$scope.enteredMessage,"userid":6,"channelid":1,"date": new Date()};
+            message = {"message":$scope.enteredMessage,"userid":2,"channelid":2,"date": new Date()};
             dataservice.insertMessage(message, function(val, err){
                 //console.log("dataservice.createMessage .. :", +$scope.enteredMessage + ":" + new Date());
                 if (err){
@@ -140,19 +131,23 @@
   
 	});
 
-	slackCloneApp.controller('logonController', function($scope, dataservice) { //, categories
+	slackCloneApp.controller('logonController', function($scope, dataservice, $location) { //, categories
 
-            $scope.welcomemessage="Please logon to use the slack.";
-
+        $scope.loginModule = function() {
+            console.log("userid : " + $scope.username, ":password:" + $scope.password);
+            $location.url("/messages/2");
+            //console.log("hello I am in the logon controller ...");
+        }
 	});
+
+    /*
 	slackCloneApp.controller('channelsController', function($scope, dataservice) { //, categories
 
         dataservice.listchannels(function(channels) {
           $scope.channels = channels;
-          //console.log("Channels Inside channelsController : " + channels);
         });
 
-	});
+	});*/
 
     /*
 	slackCloneApp.controller('messagesController', function($scope, dataservice) {

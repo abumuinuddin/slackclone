@@ -5,11 +5,14 @@
 
 <head>
   <!-- SCROLLS -->
+  <!--
   <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" />
+  -->
   <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.0.0/css/font-awesome.css" />
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
   <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.no-icons.min.css">
 
+  <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" />
 
   <!-- SPELLS -->
 
@@ -44,15 +47,16 @@
   <nav class="navbar navbar-default">
     <div class="container">
       <div class="navbar-header">
-        <a class="navbar-brand" href="/">Angular Slack Example</a>
+        <a class="navbar-brand" href="#">Angular Slack Example</a>
       </div>
       
       <ul class="nav navbar-nav navbar-right">
         <!--
         <li><a href="#/"><i class="fa fa-home"></i> Home</a></li>
         <li><a href="#channels"><i class="fa fa-gift"></i> Channels</a></li> -->
+        <!--
         <li><a href="#logon"><i class="fa fa-sign-in"></i> Logon</a></li>
-        <li><a href="#messages"><i class="fa-comments"></i> Messages</a></li>
+        <li><a href="#messages"><i class="fa-comments"></i> Messages</a></li> -->
       </ul>
     </div>
   </nav>
@@ -61,14 +65,27 @@
   
     <!-- angular templating -->
 		<!-- this is where content will be injected -->
-    <div ng-view></div>
+    <div ng-view ></div>
     
   </div>
-  
-  <footer class="text-center">
-    <i class="fa fa-copyright"></i> <span>2016 Abu Muinuddin - Angular Slack Clone </span>
-  </footer>
-  
+
+  <div id="footer" class="container">
+      <footer class="text-left">
+          <div class="row">
+              <div class="col-md-8 col-md-offset-1">
+                <footer class="text-left row disclaimers">
+                  <i class="fa fa-copyright"></i> Copyright 2016 Abu Muinuddin - Angular Slack Clone
+                </footer>
+              </div>
+              <!--
+              <div id="feedback" class="col-md-4">
+                  <a href=""><span class="glyphicon glyphicon-thumbs-down" title="Give us feedback Sad"></span></a>
+                  <a href=""><span class="glyphicon glyphicon-thumbs-up" title="Give us feedback Happy"></span></a>
+              </div> -->
+          </div>
+      </footer>
+  </div>
+
 </body>
 
 </html>

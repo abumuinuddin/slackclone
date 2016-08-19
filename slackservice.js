@@ -662,11 +662,13 @@ function createMessage(db, message, userId, channelId, date) {
 exports.getMessageById = getMessageById;
 function getMessageById(db, id) {
     return new Promise((resolve, reject) => {
-        var query = "SELECT * FROM MESSAGE WHERE ID = '" + id + "'";
+        //var query = "SELECT * FROM MESSAGE WHERE ID = '" + id + "'";
+        var query = "SELECT ID, MESSAGE, (SELECT USERNAME FROM USER WHERE ID = USERID) as USERNAME, CHANNELID, DATE FROM MESSAGE WHERE ID = '" + id + "' ORDER BY DATE DESC";
         var message;
         db.each(query,
             function(err, row) {
-                message= { id: row.ID, message:  row.MESSAGE, userid: row.USERID, channelid: row.CHANNELID, date:  row.DATE };
+                //message = { id: row.ID, message:  row.MESSAGE, userid: row.USERID, channelid: row.CHANNELID, date:  row.DATE };
+                message = { id: row.ID, message:  row.MESSAGE, username: row.USERNAME, channelid: row.CHANNELID, date:  row.DATE };
             },
             function(err) {
                 if(err) {
@@ -694,8 +696,8 @@ function getMessages(db) {
         var message;
         db.each(query,
             function(err, row) {
-                //message= { id: row.ID, message:  row.MESSAGE, userid: row.USERID, channelid: row.CHANNELID, date:  row.DATE };
-                message= { id: row.ID, message:  row.MESSAGE, username: row.USERNAME, channelid: row.CHANNELID, date:  row.DATE };
+                //message = { id: row.ID, message:  row.MESSAGE, userid: row.USERID, channelid: row.CHANNELID, date:  row.DATE };
+                message = { id: row.ID, message:  row.MESSAGE, username: row.USERNAME, channelid: row.CHANNELID, date:  row.DATE };
                 messages.push(message);
             },
             function(err) {
