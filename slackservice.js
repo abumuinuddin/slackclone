@@ -245,10 +245,10 @@ function getChannelByName(db, name) {
 }
 
 exports.createChannel = createChannel;
-function createChannel(db, channelName, teamId, description) {
+function createChannel(db, channelName, teamId, description, type) {
     return new Promise((resolve, reject) => {
-        var sql = "INSERT INTO CHANNEL(CHANNELNAME, TEAMID, DESCRIPTION) VALUES (?, ?, ?)";
-        db.run(sql, channelName, teamId, description, function(err) {
+        var sql = "INSERT INTO CHANNEL(CHANNELNAME, TEAMID, DESCRIPTION, TYPE) VALUES (?, ?, ?, ?)";
+        db.run(sql, channelName, teamId, description, type, function(err) {
             if(err) {
                 reject(err);
                 throw err;
@@ -270,7 +270,7 @@ function getChannels(db) {
         var channel;
         db.each(query,
             function(err, row) {
-                channel = { id: row.ID, channelname: row.CHANNELNAME, teamid: row.TEAMID, description: row.DESCRIPTION };
+                channel = { id: row.ID, channelname: row.CHANNELNAME, teamid: row.TEAMID, description: row.DESCRIPTION, type: row.TYPE };
                 channels.push(channel);
             },
             function(err) {
