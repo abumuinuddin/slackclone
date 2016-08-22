@@ -44,7 +44,8 @@ if (!dbexists) {
                        "(ID             INTEGER         PRIMARY KEY     AUTOINCREMENT NOT NULL," +
                        " CHANNELNAME    CHAR(50)                                      NOT NULL," +
                        " TEAMID         INT                                           NOT NULL," +
-                       " DESCRIPTION    TEXT                                )";
+                       " DESCRIPTION    TEXT,                                                  " +
+                       " TYPE           CHAR(1)                                       NOT NULL)";
                        
         var createMessageTableSql = "CREATE TABLE IF NOT EXISTS MESSAGE " +
                        "(ID             INTEGER         PRIMARY KEY     AUTOINCREMENT NOT NULL," +
@@ -73,10 +74,12 @@ if (!dbexists) {
         //            "(5, 'swarup',  'Swarup Khatri',    'swarup@myslack.com',     'swarup');"; 
 
         var insertUserSql = "INSERT INTO USER (USERNAME, NAME, EMAIL, PASSWORD) " +
-            "VALUES ('shuvo',   'Shuvo Ahmed',      'shuvoahmed@hotmail.com', 'shuvopassword')," +
+            "VALUES ('shuvo',   'Shuvo Ahmed',      'shuvo@myslack.com',      'shuvopassword')," +
                    "('abu',     'Abu Moinuddin',    'abu@myslack.com',        'abupassword')," +
                    "('charles', 'Charles Walsek',   'charles@myslack.com',    'charlespassword')," +
                    "('beiying', 'Beiying Chen',     'beiying@myslack.com',    'beiyingpassword')," +
+                   "('brian',   'Brian Will',       'bwill@myslack.com',      'brian')," +
+                   "('sly',     'Sylvester Harvey', 'sly@myslack.com',        'sly')," +
                    "('swarup',  'Swarup Khatri',    'swarup@myslack.com',     'swarup');"; 
 
         // var insertTeamSql = "INSERT INTO TEAM (ID, TEAMNAME) " +
@@ -85,15 +88,24 @@ if (!dbexists) {
 
         var insertTeamSql = "INSERT INTO TEAM (TEAMNAME) " +
             "VALUES ('slack')," +
-                   "('tweeter');"; 
+                   "('tweeter')," +
+                   "('ssa4week')," +
+                   "('team1')," +
+                   "('team2')," +
+                   "('abuShuvo');";
 
         // var insertChannelSql = "INSERT INTO CHANNEL (ID, CHANNELNAME, TEAMID, DESCRIPTION) " +
         //     "VALUES (1, 'slackChannel', 1, 'Channel for team slack')," +
         //            "(2, 'tweeterChannel', 2, 'Channel for team tweeter');"; 
 
-        var insertChannelSql = "INSERT INTO CHANNEL (CHANNELNAME, TEAMID, DESCRIPTION) " +
-            "VALUES ('slackChannel', 1, 'Channel for team slack')," +
-                   "('tweeterChannel', 2, 'Channel for team tweeter');"; 
+        var insertChannelSql = "INSERT INTO CHANNEL (CHANNELNAME, TEAMID, DESCRIPTION, TYPE) " +
+            "VALUES ('slackChannel', 1, 'Channel for team slack', 'T')," +
+                    "('ssa4week', 3, 'Channel for team ssa4week', 'T')," +
+                    "('general',  3, 'Channel for team general', 'T')," +
+                    "('team1',    4, 'Channel for team team1', 'T')," +
+                    "('team2',    5, 'Channel for team team2', 'T')," +
+                    "('abuShuvo', 6, 'Private Channel for team abuShuvo', 'P')," +
+                    "('tweeterChannel', 2, 'Channel for team tweeter', 'T');"; 
         
         // var insertTeamMemberSql = "INSERT INTO TEAMMEMBER (ID, USERID, TEAMID) " +
         //    "VALUES (1, 1, 1)," +
@@ -103,17 +115,51 @@ if (!dbexists) {
 
         var insertTeamMemberSql = "INSERT INTO TEAMMEMBER (USERID, TEAMID) " +
            "VALUES (1, 1)," +
+                  "(7, 1)," +
+                  "(2, 1)," +
+                  "(6, 1)," +
                   "(1, 2)," +
-                  "(5, 1)," +
-                  "(2, 2);";
+                  "(2, 2)," +
+                  "(3, 2)," +
+                  "(4, 2)," +
+                  "(1, 3)," +
+                  "(2, 3)," +
+                  "(3, 3)," +
+                  "(4, 3)," +
+                  "(5, 3)," +
+                  "(6, 3)," +
+                  "(7, 3)," +
+                  "(2, 4)," +
+                  "(6, 4)," +
+                  "(1, 5)," +
+                  "(7, 5)," +
+                  "(1, 6)," +
+                  "(2, 6);";
 
         // var insertMessageSql = "INSERT INTO MESSAGE (ID, MESSAGE, USERID, CHANNELID, DATE) " +
         //      "VALUES (1, 'Hi Swarup!',          1, 1, '2016-08-11 14:45:00'), " +
         //             "(2, 'Mocha testing....',   1, 2, '2016-08-05 12:46:00');";
 
         var insertMessageSql = "INSERT INTO MESSAGE (MESSAGE, USERID, CHANNELID, DATE) " +
-             "VALUES ('Hi Swarup!',          1, 1, '2016-08-11 14:45:00'), " +
-                    "('Mocha testing....',   1, 2, '2016-08-05 12:46:00');";
+             "VALUES ('Hi, Swarup Here!',    7, 1, '2016-08-11 14:45:00'), " +
+                    "('Hello from Sly',      6, 1, '2016-08-11 14:46:00'), " +
+                    "('Shuvo Here...',       1, 1, '2016-08-11 14:44:00'), " +
+                    "('Hi Team Slack!',      2, 1, '2016-08-11 14:47:00'), " +
+                    "('Hi Team Tweeter!',    1, 7, '2016-08-11 14:45:00'), " +
+                    "('Hello...',            2, 7, '2016-08-11 14:44:00'), " +
+                    "('Welcome to Tweeter!', 3, 7, '2016-08-11 14:43:00'), " +
+                    "('Hi!',                 4, 7, '2016-08-05 12:46:00'), " +
+                    "('BootCamp Starts',     1, 2, '2016-08-05 12:46:00'), " +
+                    "('Here for 4 weeks',    2, 2, '2016-08-05 12:45:00'), " +
+                    "('Time to learn',       3, 2, '2016-08-05 12:46:00'), " +
+                    "('Learning java',       7, 2, '2016-08-05 12:47:00'), " +
+                    "('Nodejs is fun',       6, 2, '2016-08-05 12:46:00'), " +
+                    "('Team1 here',          2, 4, '2016-08-22 12:46:00'), " +
+                    "('Hi Team1!!',          6, 4, '2016-08-22 12:47:00'), " +
+                    "('Team2!!!!!',          1, 5, '2016-08-22 12:46:00'), " +
+                    "('Hi Team2!!',          7, 5, '2016-08-22 12:47:00'), " +
+                    "('Angular is cool',     2, 6, '2016-08-05 12:46:00'), " +
+                    "('Yes, Angular is fun', 1, 6, '2016-08-05 12:47:00');";
                     
         db.run(insertUserSql);
         db.run(insertTeamSql);
