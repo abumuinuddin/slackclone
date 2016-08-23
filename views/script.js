@@ -94,6 +94,7 @@
         var userData;
         var cachedMessages = [];
         var channelid;
+        var channelname;
         
         $scope.user = $localStorage.user;
 
