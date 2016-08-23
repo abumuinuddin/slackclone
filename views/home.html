@@ -3,8 +3,10 @@
     
     <div class="col-sm-2 bg-success" >
         <ul class="nav nav-list">
-            <li class="active"><strong><i class="icon-fixed-width icon-home"></i>Welcome</strong><br/>
-            <ispan class="fa fa-male"></span>&nbsp;&nbsp;{{user.username}}
+            <li class="active">
+                <strong><i class="fa fa-bell"></i>&nbsp;Welcome</strong><li/>
+            <li>
+                &nbsp;&nbsp;<span class="fa fa-male"></span>&nbsp;&nbsp;{{user.username}}
             </li>
         </ul><br>
         <ul class="nav nav-list">
@@ -13,22 +15,24 @@
         </ul>
         <ul class="nav nav-list">
             <li  ><i class="fa fa-lock"></i> <strong>DIRECT MESSAGES</strong></li>
-            <li ng-repeat="dChannel in dChannels | orderBy:'channelname'" ><i class="fa fa-users"></i><a href="#/messages/{{channel.id }}" >#&nbsp;{{channel.channelname}}</a></li>
+            <li ng-repeat="dChannel in dChannels | orderBy:'channelname'" ><a href="#/messages/{{channel.id }}" >#&nbsp;{{channel.channelname}}</a></li>
         </ul>
     </div>
     <div class="col-sm-7" >
 
         <form ng-submit="addName()">
             <table border="0" width="500">
+                <!--
                 <tr>
                     <th>User Name</th>
                     <th>Content</th>
                     <th>Date</th>
-                </tr>
-                <tr ng-repeat="message in messages">
-                    <td>{{ message.username }}</td>
-                    <td>{{ message.message}}</td>
-                    <td>{{ message.date}}</td>
+                </tr> -->
+                <tr><th colspan="3">&nbsp;</th>
+                <tr ng-repeat="message in messages | orderBy:'date'" ">
+                    <td style="width: 20%""><i class="fa fa-user"></i>&nbsp;&nbsp; {{ message.username }}</td>
+                    <td style="width: 50%"">{{ message.message}}</td>
+                    <td style="width: 30%"">{{ message.date | date : 'yyyy-MM-dd'}}</td>
                 </tr>
                 <tr >
                     <td colspan="5" style="max-width: 600em;">
