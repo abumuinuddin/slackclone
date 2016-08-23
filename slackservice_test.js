@@ -292,22 +292,23 @@ describe('Test SlackService', () => {
     });
 
     it('#31 - retrieve all the messages', function(done) {
-        var expected = [{"id":15,"message":"Hi Team1!!","username":"sly","channelid":4,"date":"2016-08-22 12:47:00"},{"id":17,"message":"Hi Team2!!","username":"swarup","channelid":5,"date":"2016-08-22 12:47:00"},
-        {"id":14,"message":"Team1 here","username":"abu","channelid":4,"date":"2016-08-22 12:46:00"},{"id":16,"message":"Team2!!!!!","username":"shuvo","channelid":5,"date":"2016-08-22 12:46:00"},
-        {"id":4,"message":"Hi Team Slack!","username":"abu","channelid":1,"date":"2016-08-11 14:47:00"},{"id":2,"message":"Hello from Sly","username":"sly","channelid":1,"date":"2016-08-11 14:46:00"},
-        {"id":1,"message":"Hi, Swarup Here!","username":"swarup","channelid":1,"date":"2016-08-11 14:45:00"},{"id":5,"message":"Hi Team Tweeter!","username":"shuvo","channelid":7,"date":"2016-08-11 14:45:00"},
-        {"id":3,"message":"Shuvo Here...","username":"shuvo","channelid":1,"date":"2016-08-11 14:44:00"},{"id":6,"message":"Hello...","username":"abu","channelid":7,"date":"2016-08-11 14:44:00"},
-        {"id":7,"message":"Welcome to Tweeter!","username":"charles","channelid":7,"date":"2016-08-11 14:43:00"},{"id":12,"message":"Learning java","username":"swarup","channelid":2,"date":"2016-08-05 12:47:00"},
-        {"id":19,"message":"Yes, Angular is fun","username":"shuvo","channelid":6,"date":"2016-08-05 12:47:00"},{"id":8,"message":"Hi!","username":"beiying","channelid":7,"date":"2016-08-05 12:46:00"},
-        {"id":9,"message":"BootCamp Starts","username":"shuvo","channelid":2,"date":"2016-08-05 12:46:00"},{"id":11,"message":"Time to learn","username":"charles","channelid":2,"date":"2016-08-05 12:46:00"},
-        {"id":13,"message":"Nodejs is fun","username":"sly","channelid":2,"date":"2016-08-05 12:46:00"},{"id":18,"message":"Angular is cool","username":"abu","channelid":6,"date":"2016-08-05 12:46:00"},
-        {"id":10,"message":"Here for 4 weeks","username":"abu","channelid":2,"date":"2016-08-05 12:45:00"}];
+        var expected = [{"id":22,"message":"hello","username":"abu","channelid":6,"date":"2016-08-23T16:42:14.784Z"},{"id":21,"message":"hello","username":"abu","channelid":3,"date":"2016-08-23T16:41:46.737Z"},
+        {"id":20,"message":"let's put the first message in #SlackChannel","username":"abu","channelid":3,"date":"2016-08-23T16:41:32.396Z"},{"id":15,"message":"Hi Team1!!","username":"sly","channelid":4,"date":"2016-08-22 12:47:00"},
+        {"id":17,"message":"Hi Team2!!","username":"swarup","channelid":5,"date":"2016-08-22 12:47:00"},{"id":14,"message":"Team1 here","username":"abu","channelid":4,"date":"2016-08-22 12:46:00"},
+        {"id":16,"message":"Team2!!!!!","username":"shuvo","channelid":5,"date":"2016-08-22 12:46:00"},{"id":4,"message":"Hi Team Slack!","username":"abu","channelid":1,"date":"2016-08-11 14:47:00"},
+        {"id":2,"message":"Hello from Sly","username":"sly","channelid":1,"date":"2016-08-11 14:46:00"},{"id":1,"message":"Hi, Swarup Here!","username":"swarup","channelid":1,"date":"2016-08-11 14:45:00"},
+        {"id":5,"message":"Hi Team Tweeter!","username":"shuvo","channelid":7,"date":"2016-08-11 14:45:00"},{"id":3,"message":"Shuvo Here...","username":"shuvo","channelid":1,"date":"2016-08-11 14:44:00"},
+        {"id":6,"message":"Hello...","username":"abu","channelid":7,"date":"2016-08-11 14:44:00"},{"id":7,"message":"Welcome to Tweeter!","username":"charles","channelid":7,"date":"2016-08-11 14:43:00"},
+        {"id":12,"message":"Learning java","username":"swarup","channelid":2,"date":"2016-08-05 12:47:00"},{"id":19,"message":"Yes, Angular is fun","username":"shuvo","channelid":6,"date":"2016-08-05 12:47:00"},
+        {"id":8,"message":"Hi!","username":"beiying","channelid":7,"date":"2016-08-05 12:46:00"},{"id":9,"message":"BootCamp Starts","username":"shuvo","channelid":2,"date":"2016-08-05 12:46:00"},
+        {"id":11,"message":"Time to learn","username":"charles","channelid":2,"date":"2016-08-05 12:46:00"},{"id":13,"message":"Nodejs is fun","username":"sly","channelid":2,"date":"2016-08-05 12:46:00"},
+        {"id":18,"message":"Angular is cool","username":"abu","channelid":6,"date":"2016-08-05 12:46:00"},{"id":10,"message":"Here for 4 weeks","username":"abu","channelid":2,"date":"2016-08-05 12:45:00"}];
         slackService.getMessages(conn).should.eventually.equal(JSON.stringify(expected)).notify(done);
     });
     
     it('#32 - given a channel id, retrieve all the messages for that channel', function(done) {
         var channelId = 6;
-        var expected = [{"id":19,"message":"Yes, Angular is fun","userid":1,"channelid":6,"date":"2016-08-05 12:47:00"},{"id":18,"message":"Angular is cool","userid":2,"channelid":6,"date":"2016-08-05 12:46:00"}];
+        var expected = [{"id":22,"message":"hello","userid":2,"channelid":6,"date":"2016-08-23T16:42:14.784Z"},{"id":19,"message":"Yes, Angular is fun","userid":1,"channelid":6,"date":"2016-08-05 12:47:00"},{"id":18,"message":"Angular is cool","userid":2,"channelid":6,"date":"2016-08-05 12:46:00"}];
         slackService.getMessagesByChannelId(conn, channelId).should.eventually.equal(JSON.stringify(expected)).notify(done);
     });
 
