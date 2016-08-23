@@ -9,11 +9,11 @@
         </ul><br>
         <ul class="nav nav-list">
             <li class="active" ><i class="fa fa-lock"></i> <strong>CHANNELS</strong></li>
-            <div ng-repeat="channel in channels | orderBy:'channelname'" ><a href="#/messages/{{channel.id }}" >#&nbsp;{{channel.channelname}}</a></div>
+            <div ng-repeat="channel in channels | orderBy:'channelname'" ><a href="#/messages/{{channel.id }}" >&nbsp;&nbsp;&nbsp;#&nbsp;{{channel.channelname}}</a></div>
         </ul>
         <ul class="nav nav-list">
             <li  ><i class="fa fa-lock"></i> <strong>DIRECT MESSAGES</strong></li>
-            <li ng-repeat="dChannel in dChannels | orderBy:'channelname'" ><a href="#/messages/{{channel.id }}" >#&nbsp;{{channel.channelname}}</a></li>
+            <li ng-repeat="dChannel in dChannels | orderBy:'channelname'" ><i class="fa fa-users"></i><a href="#/messages/{{channel.id }}" >#&nbsp;{{channel.channelname}}</a></li>
         </ul>
     </div>
     <div class="col-sm-7" >
