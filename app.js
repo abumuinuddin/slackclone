@@ -133,7 +133,7 @@ app.post('/insertMessage', function (req, res) {
                                 );
     pInsertMessage.then(
         (val) => {
-            //console.log("getMessages in appjs ....: ", val);
+            console.log("getMessages in appjs ....: ", val);
             res.send(val);
         },
         (err) => {

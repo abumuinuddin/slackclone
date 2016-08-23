@@ -42,7 +42,7 @@
           $http({
             method: 'GET',
             url: '/getMessages',
-            cache: true
+            cache: false
           }).success(callback); //deprecated
         }
         
