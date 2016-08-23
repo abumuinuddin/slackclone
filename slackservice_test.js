@@ -90,9 +90,9 @@ describe('Test SlackService', () => {
         var name = 'Test Name';
         var email = 'TestEmail@slack.com';
         var password = 'testpassword';
-        //var expected = [6, 'testusername', 'Test Name', 'TestEmail@slack.com', 'testpassword'];
-        var expected = 8;
-        slackService.createUser(conn, username, name, email, password).should.eventually.equal(expected).notify(done);
+        var expected = {"id":8,"username":"testusername","name":"Test Name","email":"TestEmail@slack.com","password":"testpassword"};
+        //var expected = 8;
+        slackService.createUser(conn, username, name, email, password).should.eventually.equal(JSON.stringify(expected)).notify(done);
         // conn.beginTransaction(function(err, conn) {
         //     if(err) {
         //         throw 'Could not use connection!';
@@ -281,7 +281,7 @@ describe('Test SlackService', () => {
         var channelId = 1;
         var date = '2016-08-18 14:45:00';
         //var expected = 3;
-        var expected = {"id":20,"message":"Test Message","username":"charles","channelid":channelId,"date":date};
+        var expected = {"id":23,"message":"Test Message","username":"charles","channelid":channelId,"date":date};
         slackService.createMessage(conn, message, userId, channelId, date).should.eventually.equal(JSON.stringify(expected)).notify(done);
     });
 
@@ -336,6 +336,12 @@ describe('Test SlackService', () => {
         var expected = [{"id":15,"message":"Hi Team1!!","userid":6,"channelid":4,"date":"2016-08-22 12:47:00"},{"id":2,"message":"Hello from Sly","userid":6,"channelid":1,"date":"2016-08-11 14:46:00"},
         {"id":13,"message":"Nodejs is fun","userid":6,"channelid":2,"date":"2016-08-05 12:46:00"}];
         slackService.getMessagesByUserName(conn, userName).should.eventually.equal(JSON.stringify(expected)).notify(done);
+    });
+
+    it('#37 - given user id, return associated private channels', function(done) {
+      var userId = 1;
+      var expected = [{"id":6,"channelname":"abuShuvo","teamid":6,"description":"Private Channel for team abuShuvo"}];
+      slackService.getPrivateChannelsByUserId(conn, userId).should.eventually.equal(JSON.stringify(expected)).notify(done);
     });
 
 });

@@ -70,6 +70,7 @@ function getUsers(db) {
                     }
                     else{
                         resolve(JSON.stringify(users));
+                        //resolve(users);
                     }
                 }
         });
@@ -88,7 +89,9 @@ function createUser(db, username, name, email, password) {
             else {
                 //console.log('this=' + JSON.stringify(this));
                 //console.log('this.lastID=' + this.lastID);
-                resolve(this.lastID);
+                //resolve(this.lastID);
+                resolve(getUserById(db, this.lastID));
+
             }
         });
     });
@@ -573,7 +576,35 @@ function getTeamsByUserName(db, name) {
 exports.getChannelsByUserId = getChannelsByUserId;
 function getChannelsByUserId(db, id) {
     return new Promise((resolve, reject) => {
-        var query = "SELECT * FROM CHANNEL WHERE TEAMID IN (SELECT TEAMID FROM TEAMMEMBER WHERE USERID IN (SELECT ID FROM USER WHERE ID = '" + id + "'))";
+        var query = "SELECT * FROM CHANNEL WHERE TYPE != 'P' AND TEAMID IN (SELECT TEAMID FROM TEAMMEMBER WHERE USERID IN (SELECT ID FROM USER WHERE ID = '" + id + "'))";
+        var channels = [];
+        var channel;
+        db.each(query,
+            function(err, row) {
+                channel = { id: row.ID, channelname: row.CHANNELNAME, teamid: row.TEAMID, description: row.DESCRIPTION };
+                channels.push(channel);
+            },
+            function(err) {
+                if(err) {
+                    reject(err);
+                    throw err;
+                }
+                else {
+                    if(channels === undefined){
+                        resolve(JSON.stringify(0));
+                    }
+                    else{
+                        resolve(JSON.stringify(channels));
+                    }
+                }
+        });
+    });
+}
+
+exports.getPrivateChannelsByUserId = getPrivateChannelsByUserId;
+function getPrivateChannelsByUserId(db, id) {
+    return new Promise((resolve, reject) => {
+        var query = "SELECT * FROM CHANNEL WHERE TYPE = 'P' AND TEAMID IN (SELECT TEAMID FROM TEAMMEMBER WHERE USERID IN (SELECT ID FROM USER WHERE ID = '" + id + "'))";
         var channels = [];
         var channel;
         db.each(query,
