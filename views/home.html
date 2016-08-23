@@ -1,28 +1,25 @@
 
-<div class="container">
+<div class="container" style="font-size: 0.9em;">
     
-    <div class="col-sm-2">
+    <div class="col-sm-2 bg-success" >
         <ul class="nav nav-list">
-            <li class="active"><h5 ><strong><i class="icon-fixed-width icon-home"></i> Slack User</strong></h4></li>
-            <li class="active"><i class="fa fa-circle"></i>&nbsp;&nbsp;{{user.username}}</li>
+            <li class="active"><strong><i class="icon-fixed-width icon-home"></i>Welcome</strong><br/>
+            <ispan class="fa fa-male"></span>&nbsp;&nbsp;{{user.username}}
+            </li>
+        </ul><br>
+        <ul class="nav nav-list">
+            <li class="active" ><i class="fa fa-lock"></i> <strong>CHANNELS</strong></li>
+            <div ng-repeat="channel in channels | orderBy:'channelname'" ><a href="#/messages/{{channel.id }}" >#&nbsp;{{channel.channelname}}</a></div>
         </ul>
-
         <ul class="nav nav-list">
-            <li class="active"><a ><i class="icon-fixed-width icon-home"></i> Slack Channels</a></li>
-            <li ng-repeat="channel in channels | orderBy:'channelname'" ><a href="#/messages/{{channel.id }}"><i class="icon-fixed-width icon-book"></i>{{channel.channelname}}</a></li>
+            <li  ><i class="fa fa-lock"></i> <strong>DIRECT MESSAGES</strong></li>
+            <li ng-repeat="dChannel in dChannels | orderBy:'channelname'" ><a href="#/messages/{{channel.id }}" >#&nbsp;{{channel.channelname}}</a></li>
         </ul>
     </div>
     <div class="col-sm-7" >
 
-        <!--
-        <ul class="nav nav-list"> 
-            <li class="active"><a href="#"><i class="icon-fixed-width icon-home"></i> Messages</a></li>
-            <li ng-repeat="channel in channels"><a href="#/messages/{{channel.CHANNELID }}"><i class="icon-fixed-width icon-book"></i> {{channel.CHANNELID}}</a></li>
-            <li ng-repeat="channel in channels"><a href="#?channel={{channel.CHANNELID }}"><i class="icon-fixed-width icon-book"></i> {{channel.CHANNELID}}</a></li>
-        </ul>-->
-
         <form ng-submit="addName()">
-            <table border="1" width="500">
+            <table border="0" width="500">
                 <tr>
                     <th>User Name</th>
                     <th>Content</th>
@@ -34,12 +31,8 @@
                     <td>{{ message.date}}</td>
                 </tr>
                 <tr >
-                    <td colspan="5" >
-                        <!--
-                        <textarea cols="300" rows="1" ng-model="enteredMessage" ></textarea>
-                        <span ng-show="addMessageError">Username is required</span>
-                        <input type="submit" value="add"><br/>
-                        -->
+                    <td colspan="5" style="max-width: 600em;">
+
                         <textarea cols="300" rows="1" ng-model="enteredMessage" ></textarea>
                         <input type="submit" value="add"><br/>
                         
