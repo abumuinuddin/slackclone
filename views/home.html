@@ -1,16 +1,21 @@
 
 <div class="container">
-  <div class="row" >
+    
     <div class="col-sm-2">
         <ul class="nav nav-list">
-            <li class="active"><a href="#"><i class="icon-fixed-width icon-home"></i> Slack   Channels</a></li>
-            <li ng-repeat="channel in channels | orderBy:'channelname'" ><a href="#/messages/{{channel.id }}"><i class="icon-fixed-width icon-book"></i> {{channel.channelname}}</a></li>
+            <li class="active"><h5 ><strong><i class="icon-fixed-width icon-home"></i> Slack User</strong></h4></li>
+            <li class="active"><i class="fa fa-circle"></i>&nbsp;&nbsp;{{user.username}}</li>
+        </ul>
+
+        <ul class="nav nav-list">
+            <li class="active"><a ><i class="icon-fixed-width icon-home"></i> Slack Channels</a></li>
+            <li ng-repeat="channel in channels | orderBy:'channelname'" ><a href="#/messages/{{channel.id }}"><i class="icon-fixed-width icon-book"></i>{{channel.channelname}}</a></li>
         </ul>
     </div>
     <div class="col-sm-7" >
 
         <!--
-        <ul class="nav nav-list">
+        <ul class="nav nav-list"> 
             <li class="active"><a href="#"><i class="icon-fixed-width icon-home"></i> Messages</a></li>
             <li ng-repeat="channel in channels"><a href="#/messages/{{channel.CHANNELID }}"><i class="icon-fixed-width icon-book"></i> {{channel.CHANNELID}}</a></li>
             <li ng-repeat="channel in channels"><a href="#?channel={{channel.CHANNELID }}"><i class="icon-fixed-width icon-book"></i> {{channel.CHANNELID}}</a></li>

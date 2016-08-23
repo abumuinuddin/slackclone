@@ -51,13 +51,33 @@ pMessage.then(
 
 app.use('/views', express.static(__dirname + '/views'));
 
-app.get('/getChannels/:id/', function (req, res) {
-    //console.log("/getChannels/req.params.id..." + req.params.id);
+app.post('/getChannelsByUserId', function (req, res) {
+    console.log("/getChannelsByUserId/req.params.id...req.body: " + JSON.stringify(req.body.userid));
                              
-    var pChannel = dbservice.getChannels(db); //'rubychannel'
+    //var pChannel = dbservice.getChannels(db); //'rubychannel'
+
+    var pChannel = dbservice.getChannelsByUserId(db, req.body.userid);
     pChannel.then(
         (val) => {
-            //console.log("getChannels in appjs ....: "+ val);
+            console.log("getChannelsByUserId in appjs ....: "+ val);
+           res.send(val);
+        },
+        (err) => {
+            console.log('oh no!', err);
+        }
+    );
+
+});
+
+app.post('/getChannels', function (req, res) {
+    console.log("/getChannels/req.params.id...req.body: " + req.body.channelid);
+                             
+    //var pChannel = dbservice.getChannels(db); //'rubychannel'
+
+    var pChannel = dbservice.getChannelById(db, req.body.channelid);
+    pChannel.then(
+        (val) => {
+            console.log("getChannels in appjs ....: "+ val);
             res.send(val);
         },
         (err) => {
@@ -74,6 +94,23 @@ app.get('/getMessages', function (req, res) {
     pChannel.then(
         (val) => {
             //console.log("getMessages in appjs ....: ", val);
+            res.send(val);
+        },
+        (err) => {
+            console.log('oh no!', err);
+        }
+    );
+
+});
+
+
+app.post('/getUser', function (req, res) {
+    console.log("/getUser: req.body.username: ", req.body.username + " : " + req.body.password);
+
+    var pChannel = dbservice.validateUser(db, req.body.username, req.body.password); //'rubychannel'
+    pChannel.then(
+        (val) => { //same as function (val) {}
+            console.log("getUser in appjs ....: ", val);
             res.send(val);
         },
         (err) => {
