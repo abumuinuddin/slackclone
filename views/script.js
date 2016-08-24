@@ -38,6 +38,19 @@
 
         }
 
+        function getPrivateChannelsByUserId (user, callback) {
+            $http({
+                method: 'POST',
+                url: '/getPrivateChannelsByUserId',
+                data:user,
+                cache: true, // - you can cache the response
+            }).then(callback, function(res){
+                //Error handler
+                console.log("Error getPrivateChannelsByUserId (): ", res);
+            });
+
+        }
+
         function getMessagelData(callback){
           $http({
             method: 'GET',
@@ -82,14 +95,15 @@
             },
             insertMessage: insertMessage,
             getUser: getUser,
-            getChannelsByUserId: getChannelsByUserId
+            getChannelsByUserId: getChannelsByUserId,
+            getPrivateChannelsByUserId: getPrivateChannelsByUserId
             
         };
         
     });
 
     // create the controller and inject Angular's $scope
-	slackCloneApp.controller('mainController', function($scope, dataservice, $routeParams, $localStorage) {
+	slackCloneApp.controller('mainController', function($scope, dataservice, $routeParams, $localStorage, $location) {
   
         var userData;
         var cachedMessages = [];
@@ -97,6 +111,15 @@
         var channelname;
         
         $scope.user = $localStorage.user;
+
+        $scope.logoutModule = function() {
+            
+            console.log( " $localStorage.user ", $localStorage.user);
+            $localStorage.user= null;
+            console.log( " $localStorage.user ", $localStorage.user);
+            $location.url("/"); // + /$sessionStorage.user.id);
+            return;
+        }
 
         if ($localStorage.user!==undefined ){
             userData = {"userid": $localStorage.user.id};
@@ -127,7 +150,7 @@
         });
 
         dataservice.listMessages(function(messages) {
-          console.log('list messages');
+          //console.log('list messages');
           $scope.messages = messages;
         });
 
@@ -188,7 +211,7 @@
         }
 	});
 
-
+/*
 	slackCloneApp.controller('logoutController', function($scope, dataservice, $location, $localStorage) { //, categories, , $sessionStorage, $localStorage
 
         $scope.logoutModule = function() {
@@ -206,3 +229,4 @@
           console.log("Messages Inside messagesController : " + messages);
         });
 	});
+*/

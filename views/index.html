@@ -7,9 +7,12 @@
   <!-- SCROLLS -->
   <!--
   <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.css" />
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
   -->
-  <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.0.0/css/font-awesome.css" />
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css">
   <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.no-icons.min.css">
 
   <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" />
@@ -33,17 +36,17 @@
         padding: 8px;
     }
 
-    tr:nth-child(even){background-color: #f2f2f2}
+    tr:nth-child(even){background-color: #F2F2F2}
 
     th {
         background-color: #E5E5E5;
-        color: white;
+        //color: white;
     }
   </style>  
 </head>
 
 <!-- define angular controller -->
-<body ng-controller="mainController"> <!-- ng-controller="mainController"-->
+<body> <!-- ng-controller="mainController"-->
 <!--
   <nav class="navbar navbar-default">
     <div class="container">
@@ -60,8 +63,9 @@
         <li><a href="#logon"><i class="fa fa-sign-in"></i> Logon</a></li>
         <li><a href="#messages"><i class="fa-comments"></i> Messages</a></li>
       </ul>
-    </div>
+    </div>  
   </nav> -->
+<div class="container" style=" font-size: 0.9em;"> <!-- background-color: #C8C5C9;-->
 
   <div id="main">
     <br/>
@@ -70,13 +74,14 @@
     <div ng-view ></div>
     
   </div>
-<div class="container" style="font-size: 0.9em;">
-    <div>
-        <footer class="text-left row disclaimers">
-          <br/>
-          &nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-copyright"></i> Copyright 2016 Abu Muinuddin - Angular Slack Clone
-        </footer>
-    </div>
+  <div class="container" style="font-size: 0.9em;">
+      <div>
+          <footer class="text-left row disclaimers">
+            <br/>
+            &nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-copyright"></i> Copyright 2016 Abu Muinuddin - Angular Slack Clone
+          </footer>
+      </div>
+  </div>
 </div>
 
 </body>
