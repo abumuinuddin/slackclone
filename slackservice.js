@@ -612,12 +612,21 @@ function getChannelsByUserId(db, id) {
 exports.getPrivateChannelsByUserId = getPrivateChannelsByUserId;
 function getPrivateChannelsByUserId(db, id) {
     return new Promise((resolve, reject) => {
-        var query = "SELECT * FROM CHANNEL WHERE TYPE = 'P' AND TEAMID IN (SELECT TEAMID FROM TEAMMEMBER WHERE USERID IN (SELECT ID FROM USER WHERE ID = '" + id + "'))";
+        //var query = "SELECT * FROM CHANNEL WHERE TYPE = 'P' AND TEAMID IN (SELECT TEAMID FROM TEAMMEMBER WHERE USERID IN (SELECT ID FROM USER WHERE ID = '" + id + "'))";
+        //var query = "SELECT * FROM CHANNEL WHERE TYPE != 'P' AND TEAMID IN (SELECT TEAMID FROM TEAMMEMBER WHERE USERID IN (SELECT ID FROM USER WHERE ID = '" + id + "'))";
+        var query = "SELECT C.*, NM.NUMBEROFMESSAGES " +
+                    "  FROM CHANNEL C INNER JOIN TEAM T ON C.TEAMID = T.ID " +
+                    "                 INNER JOIN TEAMMEMBER TM ON T.ID = TM.TEAMID " +
+                    "                 INNER JOIN (SELECT CHANNELID, COUNT(*) AS NUMBEROFMESSAGES FROM MESSAGE GROUP BY CHANNELID) NM ON C.ID = NM.CHANNELID " +
+                    " WHERE C.TYPE = 'P' " +
+                    "   AND TM.USERID = '" + id + "' " +
+                    " ORDER BY C.ID";
+
         var channels = [];
         var channel;
         db.each(query,
             function(err, row) {
-                channel = { id: row.ID, channelname: row.CHANNELNAME, teamid: row.TEAMID, description: row.DESCRIPTION };
+                channel = { id: row.ID, channelname: row.CHANNELNAME, teamid: row.TEAMID, description: row.DESCRIPTION, type: row.TYPE, numberofmessages:  row.NUMBEROFMESSAGES };
                 channels.push(channel);
             },
             function(err) {
