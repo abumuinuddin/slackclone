@@ -620,7 +620,7 @@ function getPrivateChannelsByUserId(db, id) {
                     "                 INNER JOIN (SELECT CHANNELID, COUNT(*) AS NUMBEROFMESSAGES FROM MESSAGE GROUP BY CHANNELID) NM ON C.ID = NM.CHANNELID " +
                     " WHERE C.TYPE = 'P' " +
                     "   AND TM.USERID = '" + id + "' " +
-                    " ORDER BY C.ID";
+                    "ORDER BY C.ID";
 
         var channels = [];
         var channel;
