@@ -36,11 +36,11 @@
                         <a href="#/" ng-click="logoutModule()"><i class="fa fa-sign-out"></i>Log Out</a>
                     </th>
                 <tr ng-repeat="message in messages | orderBy:'date'" ">
-                    <td style="width: 20%; vertical-align:top;"><i class="fa fa-male-avatar"></i>&nbsp;&nbsp;
-                        <strong>{{message.username}}</strong>&nbsp;<span style="font-size: 0.7em; " >{{message.date| date : 'shortTime'}}</span>
+                    <td style="width: 20%; vertical-align:top;"><i class="fa fa-user"></i>&nbsp;&nbsp;
+                        <strong>{{message.username}}</strong>&nbsp;<span style="font-size: 0.7em;" >{{message.date| date : 'shortTime'}}</span>
                     </td>
-                    <td style="width: 50%"">{{ message.message}}</td>
-                    <td style="width: 30%"">{{ message.date | date : 'mediumDate'}}</td>
+                    <td style="width: 50%;">{{ message.message}}</td>
+                    <td style="width: 20%; text-align: right; font-size: 0.7em;" >{{ message.date | date : 'mediumDate'}}</td>
                 </tr>
                 <tr >
                     <td colspan="3" style="text-align: left; padding:0.2em" >
