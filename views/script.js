@@ -11,7 +11,7 @@
 				templateUrl : './logon.html',
 				controller  : 'logonController'
             })
-			.when('/messages/:channelid', {
+			.when('/messages/:channelid/:channelname', {
 				templateUrl : './home.html',
 				controller  : 'mainController'
 			}).when('/logout', {
@@ -110,6 +110,7 @@
         var cachedMessages = [];
         var channelid;
         var channelname;
+        $scope.today = new Date();
         
         $scope.user = $sessionStorage.user;
 
@@ -136,6 +137,7 @@
 
         if ($routeParams.channelid!==undefined && $routeParams.channelid!==0) {
             channelid = $routeParams.channelid;
+            $scope.channelname=$routeParams.channelname;
         }
         //console.log('$routeParams.channelid : ' + $routeParams.channelid);
         /*
@@ -160,6 +162,7 @@
                 console.log('getChannelsByUserId() channelid : ' + channelid);
                 if (channelid == 0) {
                     channelid = response.data[0].id;
+                    $scope.channelname=response.data[0].channelname;
                 }
                 dataservice.findMessages(channelid, function(messages) {
                     console.log('channelid : ' + channelid);
@@ -243,7 +246,7 @@
                 //console.log( " dataservice.getUser(user, function(user): ", JSON.stringify(response.data));
                 $sessionStorage.user= response.data;
                 
-                $location.url("/messages/0"); // + /$sessionStorage.user.id);
+                $location.url("/messages/0/none"); // + /$sessionStorage.user.id);
 
             });
         }
