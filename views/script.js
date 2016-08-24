@@ -177,10 +177,10 @@
         }
         
         getUserChannels(userData, channelid);
+
         var timer = $interval(function(){
             getUserChannels(userData, channelid);
         },5000);
-
 
        $scope.$on('destroy', function (event) {
             $interval.cancel(timer);
