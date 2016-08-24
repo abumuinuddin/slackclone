@@ -52,15 +52,15 @@ pMessage.then(
 app.use('/views', express.static(__dirname + '/views'));
 
 app.post('/getChannelsByUserId', function (req, res) {
-    console.log("/getChannelsByUserId/req.params.id...req.body: " + JSON.stringify(req.body.userid));
+    console.log("/getChannelsByUserId/...req.bodyuserid: " + JSON.stringify(req.body.userid));
                              
     //var pChannel = dbservice.getChannels(db); //'rubychannel'
 
     var pChannel = dbservice.getChannelsByUserId(db, req.body.userid);
     pChannel.then(
         (val) => {
-            console.log("getChannelsByUserId in appjs ....: "+ val);
-           res.send(val);
+            //console.log("getChannelsByUserId in appjs ....: "+ val);
+            res.send(val);
         },
         (err) => {
             console.log('oh no!', err);
@@ -69,9 +69,9 @@ app.post('/getChannelsByUserId', function (req, res) {
 
 });
 
+/*
 app.post('/getChannels', function (req, res) {
-    console.log("/getChannels/req.params.id...req.body: " + req.body.channelid);
-                             
+    //console.log("/getChannels/req.params.id...req.body: " + req.body.channelid);
     //var pChannel = dbservice.getChannels(db); //'rubychannel'
 
     var pChannel = dbservice.getChannelById(db, req.body.channelid);
@@ -85,6 +85,20 @@ app.post('/getChannels', function (req, res) {
         }
     );
 
+});*/
+
+app.post('/getPrivateChannelsByUserId', function (req, res) {
+    console.log("/getPrivateChannelsByUserId/...req.body.userid: " + JSON.stringify(req.body.userid));
+    var pChannel = dbservice.getPrivateChannelsByUserId(db, req.body.userid);
+    pChannel.then(
+        (val) => {
+            console.log("getPrivateChannelsByUserId in appjs ....: "+ val);
+            res.send(val);
+        },
+        (err) => {
+            console.log('oh no!', err);
+        }
+    );
 });
 
 app.get('/getMessages', function (req, res) {
