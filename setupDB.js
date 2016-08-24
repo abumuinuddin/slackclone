@@ -102,16 +102,16 @@ if (!dbexists) {
         //            "(2, 'tweeterChannel', 2, 'Channel for team tweeter');"; 
 
         var insertChannelSql = "INSERT INTO CHANNEL (CHANNELNAME, TEAMID, DESCRIPTION, TYPE) " +
-            "VALUES ('slackChannel', 1, 'Channel for team slack', 'T')," +
-                    "('ssa4week', 3, 'Channel for team ssa4week', 'T')," +
-                    "('general',  3, 'Channel for team general', 'T')," +
-                    "('team1',    4, 'Channel for team team1', 'T')," +
-                    "('team2',    5, 'Channel for team team2', 'T')," +
-                    "('abuShuvo', 6, 'Private Channel for team abuShuvo', 'P')," +
-                    "('tweeterChannel', 2, 'Channel for team tweeter', 'T')," +
-                    "('abuSly',   7, 'Private Channel for team abuSly', 'P')," +
-                    "('abuCharles', 8, 'Private Channel for team abuCharles', 'P')," +
-                    "('swarupShuvo', 9, 'Private Channel for team swarupShuvo', 'P');";
+            "VALUES ('slackChannel',        1, 'Channel for team slack', 'T')," +
+                    "('ssa4week',           3, 'Channel for team ssa4week', 'T')," +
+                    "('general',            3, 'Channel for team general', 'T')," +
+                    "('team1',              4, 'Channel for team team1', 'T')," +
+                    "('team2',              5, 'Channel for team team2', 'T')," +
+                    "('shuvo.a-abu.m',      6, 'Private Channel for team abuShuvo', 'P')," +
+                    "('tweeterChannel',     2, 'Channel for team tweeter', 'T')," +
+                    "('abu.m-sly.h',        7, 'Private Channel for team abuSly', 'P')," +
+                    "('abu.m-charles.w',    8, 'Private Channel for team abuCharles', 'P')," +
+                    "('swarup.k-shuvo.a',   9, 'Private Channel for team swarupShuvo', 'P');";
         
         // var insertTeamMemberSql = "INSERT INTO TEAMMEMBER (ID, USERID, TEAMID) " +
         //    "VALUES (1, 1, 1)," +
@@ -153,28 +153,28 @@ if (!dbexists) {
         //             "(2, 'Mocha testing....',   1, 2, '2016-08-05 12:46:00');";
 
         var insertMessageSql = "INSERT INTO MESSAGE (MESSAGE, USERID, CHANNELID, DATE) " +
-             "VALUES ('Hi, Swarup Here!',                   7, 1, '2016-08-11 14:45:00'), " +
-                    "('Hello from Sly',                     6, 1, '2016-08-11 14:46:00'), " +
-                    "('Shuvo Here...',                      1, 1, '2016-08-11 14:44:00'), " +
-                    "('Hi Team Slack!',                     2, 1, '2016-08-11 14:47:00'), " +
-                    "('Hi Team Tweeter!',                   1, 7, '2016-08-11 14:45:00'), " +
-                    "('Hello...',                           2, 7, '2016-08-11 14:44:00'), " +
-                    "('Welcome to Tweeter!',                3, 7, '2016-08-11 14:43:00'), " +
-                    "('Hi!',                                4, 7, '2016-08-05 12:46:00'), " +
-                    "('BootCamp Starts',                    1, 2, '2016-08-05 12:46:00'), " +
-                    "('Here for 4 weeks',                   2, 2, '2016-08-05 12:45:00'), " +
-                    "('Time to learn',                      3, 2, '2016-08-05 12:46:00'), " +
-                    "('Learning java',                      7, 2, '2016-08-05 12:47:00'), " +
-                    "('Nodejs is fun',                      6, 2, '2016-08-05 12:46:00'), " +
-                    "('Team1 here',                         2, 4, '2016-08-22 12:46:00'), " +
-                    "('Hi Team1!!',                         6, 4, '2016-08-22 12:47:00'), " +
-                    "('Team2!!!!!',                         1, 5, '2016-08-22 12:46:00'), " +
-                    "('Hi Team2!!',                         7, 5, '2016-08-22 12:47:00'), " +
-                    "('Angular is cool',                    2, 6, '2016-08-05 12:46:00'), " +
-                    "('Yes, Angular is fun',                1, 6, '2016-08-05 12:47:00'), " +
-                    "('Message between Abu and Sylvester',  2, 7, '2016-08-15 12:47:00'), " +
-                    "('Message between Abu and Charles',    3, 8, '2016-08-25 12:47:00'), " +
-                    "('Message between Shuvo and Swarup',   1, 9, '2016-08-05 12:47:00');";
+             "VALUES ('Hi, Swarup Here!',                   7, 1, '2016-08-22T10:10:01.123-0400'), " +
+                    "('Hello from Sly',                     6, 1, '2016-08-22T13:19:05.256-0400'), " +
+                    "('Shuvo Here...',                      1, 1, '2016-08-22T14:21:19.458-0400'), " +
+                    "('Hi Team Slack!',                     2, 1, '2016-08-22T15:55:22.458-0400'), " +
+                    "('Hi Team Tweeter!',                   1, 7, '2016-08-23T09:01:24.459-0400'), " +
+                    "('Hello...',                           2, 7, '2016-08-23T09:12:04.254-0400'), " +
+                    "('Welcome to Tweeter!',                3, 7, '2016-08-23T10:11:59.559-0400'), " +
+                    "('Hi!',                                4, 7, '2016-08-23T10:18:45.785-0400'), " +
+                    "('BootCamp Starts',                    1, 2, '2016-08-23T11:45:44.523-0400'), " +
+                    "('Here for 4 weeks',                   2, 2, '2016-08-23T12:48:18.125-0400'), " +
+                    "('Time to learn',                      3, 2, '2016-08-23T16:55:14.426-0400'), " +
+                    "('Learning java',                      7, 2, '2016-08-24T08:41:42.359-0400'), " +
+                    "('Nodejs is fun',                      6, 2, '2016-08-24T08:45:19.357-0400'), " +
+                    "('Team1 here',                         2, 4, '2016-08-24T09:10:26.246-0400'), " +
+                    "('Hi Team1!!',                         6, 4, '2016-08-24T09:14:25.129-0400'), " +
+                    "('Team2!!!!!',                         1, 5, '2016-08-24T09:13:21.842-0400'), " +
+                    "('Hi Team2!!',                         7, 5, '2016-08-24T10:01:33.454-0400'), " +
+                    "('Angular is cool',                    2, 6, '2016-08-24T10:08:47.444-0400'), " +
+                    "('Yes, Angular is fun',                1, 6, '2016-08-24T10:21:05.564-0400'), " +
+                    "('Message between Abu and Sylvester',  2, 7, '2016-08-24T11:28:09.785-0400'), " +
+                    "('Message between Abu and Charles',    3, 8, '2016-08-24T12:42:17.225-0400'), " +
+                    "('Message between Shuvo and Swarup',   1, 9, '2016-08-24T13:11:16.363-0400');";
                     
         db.run(insertUserSql);
         db.run(insertTeamSql);
