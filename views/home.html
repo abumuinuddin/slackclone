@@ -32,18 +32,25 @@
                 </tr> --> 
                 <tr>
                     <th colspan="3" style="text-align: right">
-                        <i class="fa fa-cog fa-fw" aria-hidden="true"></i>Settings&nbsp;
+                        <!-- <i class="fa fa-cog fa-fw" aria-hidden="true"></i>Settings&nbsp; -->
                         <a href="#/" ng-click="logoutModule()"><i class="fa fa-sign-out"></i>Log Out</a>
                     </th>
                 <tr ng-repeat="message in messages | orderBy:'date'" ">
-                    <td colspan="3">
+                    <td colspan="2">
 
                         <i class="fa fa-user"></i>&nbsp;&nbsp;
                         <strong>{{message.username}}</strong>&nbsp;<span style="font-size: 0.7em;" >{{message.date| date : 'medium'}}</span>
                         <br />
                         <div style="width: 500px; padding-left:20px">
-                            {{ message.message}}
+                            <span style="width:480px" >
+                                {{ message.message}}
+                            </span>
                         </div>
+                    </td>
+                    <td>
+                        <span style="width:20px; align:right">
+                            <i class="fa fa-trash" aria-hidden="true"></i>
+                        <span>
                     </td>
                     <!--
                     <td style="width: 20%; vertical-align:top;"><i class="fa fa-user"></i>&nbsp;&nbsp;
