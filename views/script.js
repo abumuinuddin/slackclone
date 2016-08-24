@@ -103,7 +103,7 @@
     });
 
     // create the controller and inject Angular's $scope
-	slackCloneApp.controller('mainController', function($scope, dataservice, $routeParams, $localStorage, $location) {
+	slackCloneApp.controller('mainController', function($scope, dataservice, $routeParams, $localStorage, $location, $filter) {
   
         var userData;
         var cachedMessages = [];
@@ -114,9 +114,9 @@
 
         $scope.logoutModule = function() {
             
-            console.log( " $localStorage.user ", $localStorage.user);
+            //console.log( " $localStorage.user ", $localStorage.user);
             $localStorage.user= null;
-            console.log( " $localStorage.user ", $localStorage.user);
+            //console.log( " $localStorage.user ", $localStorage.user);
             $location.url("/"); // + /$sessionStorage.user.id);
             return;
         }
@@ -128,25 +128,30 @@
         // channel id
         // messages
 
-        console.log("JSON.stringify(userData) .." + JSON.stringify(userData));
+        //console.log("JSON.stringify(userData) .." + JSON.stringify(userData));
 
         if ($routeParams.channelid!==undefined && $routeParams.channelid!==0) {
             channelid = $routeParams.channelid;
         }
-        console.log('$routeParams.channelid : ' + $routeParams.channelid);
+        //console.log('$routeParams.channelid : ' + $routeParams.channelid);
 
         dataservice.getChannelsByUserId(userData, channelid, function(response) {
             $scope.channels = response.data; // server send data property in the response object for a promise .. then
-            console.log('getChannelsByUserId() channelid : ' + channelid);
+            //console.log('getChannelsByUserId() channelid : ' + channelid);
             if (channelid == 0) {
                 channelid = response.data[0].id;
             }
             dataservice.findMessages(channelid, function(messages) {
-                console.log('channelid : ' + channelid);
+                //console.log('channelid : ' + channelid);
                 $scope.messages = messages;
                 cachedMessages=messages;
             });
             //console.log( "callback channel id: ", response.data[0].id);
+        });
+
+        dataservice.getPrivateChannelsByUserId (userData, function(response) {
+            //console.log( "getPrivateChannelsByUserId ...response: ", JSON.stringify(response));
+            $scope.pChannels=response.data;
         });
 
         dataservice.listMessages(function(messages) {
@@ -162,7 +167,7 @@
         $scope.showAddError = false;
         $scope.enteredMessage = '';
         $scope.addName = function() {
-            console.log("input message -", $scope.enteredMessage);
+            //console.log("input message -", $scope.enteredMessage);
 
             if ($scope.enteredMessage.trim() === "") {
                  $scope.showAddError = true;
@@ -170,19 +175,20 @@
             }
             $scope.showAddError = false;
 
-            message = {"message":$scope.enteredMessage,"userid":$localStorage.user.id,"channelid":channelid,"date": new Date()};
+            //message = {"message":$scope.enteredMessage,"userid":$localStorage.user.id,"channelid":channelid,"date": new Date()};
+            message = {"message":$scope.enteredMessage,"userid":$localStorage.user.id,"channelid":channelid,"date": $filter('date')(new Date(), 'yyyy-MM-ddTHH:mm:ss.sssZ')};
 
             dataservice.insertMessage(message, function(val, err){
                 if (err){
                     console.log("err", err);
                 }
                 if(val) {
-                    console.log("Inserted values..", val );
+                    //console.log("Inserted values..", val );
                     cachedMessages.push(val);
                 }
             })
             $scope.messages = cachedMessages;
-            console.log("Messages..:.", JSON.stringify($scope.messages));
+            //console.log("Messages..:.", JSON.stringify($scope.messages));
 
         };
   
@@ -197,12 +203,12 @@
             dataservice.getUser(user, function(response) {
  
                 $scope.user = response.data; // server send data property in the response object for a promise .. 
-                console.log( " dataservice.getUser(user, function(user): ", JSON.stringify(response.data));
+                //console.log( " dataservice.getUser(user, function(user): ", JSON.stringify(response.data));
                 if (response.data==="0"){
                     $location.url("/")
                     return;
                 }
-                console.log( " dataservice.getUser(user, function(user): ", JSON.stringify(response.data));
+                //console.log( " dataservice.getUser(user, function(user): ", JSON.stringify(response.data));
                 $localStorage.user= response.data;
                 
                 $location.url("/messages/0"); // + /$sessionStorage.user.id);
