@@ -3,7 +3,7 @@ var sqlite3 = require('sqlite3');
 exports.getUserById = getUserById;
 function getUserById(db, id) {
     return new Promise((resolve, reject) => {
-        var query = "SELECT * FROM USER WHERE ID = '" + id + "'";
+        var query = "SELECT * FROM USER WHERE STATUS = 'A' AND ID = '" + id + "'";
         var user;
         db.each(query,
             function(err, row) {
@@ -29,7 +29,7 @@ function getUserById(db, id) {
 exports.getUserByUsername = getUserByUsername;
 function getUserByUsername(db, username) {
     return new Promise((resolve, reject) => {
-        var query = "SELECT * FROM USER WHERE USERNAME = '" + username + "'";
+        var query = "SELECT * FROM USER WHERE STATUS = 'A' AND USERNAME = '" + username + "'";
         var user;
         db.each(query,
             function(err, row) {
@@ -51,7 +51,7 @@ function getUserByUsername(db, username) {
 exports.getUsers = getUsers;
 function getUsers(db) {
     return new Promise((resolve, reject) => {
-        var query = "SELECT * FROM USER";
+        var query = "SELECT * FROM USER WHERE STATUS = 'A'";
         var users = [];
         var user;
         db.each(query,
@@ -100,7 +100,7 @@ function createUser(db, username, name, email, password) {
 exports.getTeamById = getTeamById;
 function getTeamById(db, id) {
     return new Promise((resolve, reject) => {
-        var query = "SELECT * FROM TEAM WHERE ID = '" + id + "'";
+        var query = "SELECT * FROM TEAM WHERE STATUS = 'A' AND ID = '" + id + "'";
         var team;
         db.each(query,
             function(err, row) {
@@ -126,7 +126,7 @@ function getTeamById(db, id) {
 exports.getTeamByName = getTeamByName;
 function getTeamByName(db, name) {
     return new Promise((resolve, reject) => {
-        var query = "SELECT * FROM TEAM WHERE TEAMNAME = '" + name + "'";
+        var query = "SELECT * FROM TEAM WHERE STATUS = 'A' AND TEAMNAME = '" + name + "'";
         var team;
         db.each(query,
             function(err, row) {
@@ -170,7 +170,7 @@ function createTeam(db, teamname) {
 exports.getTeams = getTeams;
 function getTeams(db) {
     return new Promise((resolve, reject) => {
-        var query = "SELECT * FROM TEAM";
+        var query = "SELECT * FROM TEAM WHERE STATUS = 'A'";
         var teams = [];
         var team;
         db.each(query,
@@ -198,7 +198,7 @@ function getTeams(db) {
 exports.getChannelById = getChannelById;
 function getChannelById(db, id) {
     return new Promise((resolve, reject) => {
-        var query = "SELECT * FROM CHANNEL WHERE ID = '" + id + "'";
+        var query = "SELECT * FROM CHANNEL WHERE STATUS = 'A' AND ID = '" + id + "'";
         var channel;
         db.each(query,
             function(err, row) {
@@ -224,7 +224,7 @@ function getChannelById(db, id) {
 exports.getChannelByName = getChannelByName;
 function getChannelByName(db, name) {
     return new Promise((resolve, reject) => {
-        var query = "SELECT * FROM CHANNEL WHERE CHANNELNAME = '" + name + "'";
+        var query = "SELECT * FROM CHANNEL WHERE STATUS = 'A' AND CHANNELNAME = '" + name + "'";
         var channel;
         db.each(query,
             function(err, row) {
@@ -268,7 +268,7 @@ function createChannel(db, channelName, teamId, description, type) {
 exports.getChannels = getChannels;
 function getChannels(db) {
     return new Promise((resolve, reject) => {
-        var query = "SELECT * FROM CHANNEL";
+        var query = "SELECT * FROM CHANNEL WHERE STATUS = 'A'";
         var channels = [];
         var channel;
         db.each(query,
@@ -296,7 +296,7 @@ function getChannels(db) {
 exports.getChannelsByTeamId = getChannelsByTeamId;
 function getChannelsByTeamId(db, id) {
     return new Promise((resolve, reject) => {
-        var query = "SELECT * FROM CHANNEL WHERE TEAMID = '" + id + "'";
+        var query = "SELECT * FROM CHANNEL WHERE STATUS = 'A' AND TEAMID = '" + id + "'";
         var channels = [];
         var channel;
         db.each(query,
@@ -324,7 +324,7 @@ function getChannelsByTeamId(db, id) {
 exports.getChannelsByTeamName = getChannelsByTeamName;
 function getChannelsByTeamName(db, name) {
     return new Promise((resolve, reject) => {
-        var query = "SELECT * FROM CHANNEL WHERE TEAMID IN (SELECT ID FROM TEAM WHERE TEAMNAME = '" + name + "')";
+        var query = "SELECT * FROM CHANNEL WHERE STATUS = 'A' AND TEAMID IN (SELECT ID FROM TEAM WHERE STATUS = 'A' AND TEAMNAME = '" + name + "')";
         var channels = [];
         var channel;
         db.each(query,
@@ -352,7 +352,7 @@ function getChannelsByTeamName(db, name) {
 exports.getTeamByChannelId = getTeamByChannelId;
 function getTeamByChannelId(db, id) {
     return new Promise((resolve, reject) => {
-        var query = "SELECT * FROM TEAM WHERE ID IN (SELECT TEAMID FROM CHANNEL WHERE ID = '" + id + "')";
+        var query = "SELECT * FROM TEAM WHERE STATUS = 'A' AND ID IN (SELECT TEAMID FROM CHANNEL WHERE STATUS = 'A' AND ID = '" + id + "')";
         var teams = [];
         var team;
         db.each(query,
@@ -380,7 +380,7 @@ function getTeamByChannelId(db, id) {
 exports.getTeamByChannelName = getTeamByChannelName;
 function getTeamByChannelName(db, name) {
     return new Promise((resolve, reject) => {
-        var query = "SELECT * FROM TEAM WHERE ID IN (SELECT TEAMID FROM CHANNEL WHERE CHANNELNAME = '" + name + "')";
+        var query = "SELECT * FROM TEAM WHERE STATUS = 'A' AND ID IN (SELECT TEAMID FROM CHANNEL WHERE STATUS = 'A' AND CHANNELNAME = '" + name + "')";
         var teams = [];
         var team;
         db.each(query,
@@ -408,7 +408,7 @@ function getTeamByChannelName(db, name) {
 exports.getUsersByTeamId = getUsersByTeamId;
 function getUsersByTeamId(db, id) {
     return new Promise((resolve, reject) => {
-        var query = "SELECT * FROM USER WHERE ID IN (SELECT USERID FROM TEAMMEMBER WHERE TEAMID = '" + id + "')";
+        var query = "SELECT * FROM USER WHERE STATUS = 'A' AND ID IN (SELECT USERID FROM TEAMMEMBER WHERE STATUS = 'A' AND TEAMID = '" + id + "')";
         var users = [];
         var user;
         db.each(query,
@@ -436,7 +436,7 @@ function getUsersByTeamId(db, id) {
 exports.getUsersByTeamName = getUsersByTeamName;
 function getUsersByTeamName(db, teamName) {
     return new Promise((resolve, reject) => {
-        var query = "SELECT * FROM USER WHERE ID IN (SELECT USERID FROM TEAMMEMBER WHERE TEAMID IN (SELECT ID FROM TEAM WHERE TEAMNAME = '" + teamName + "'))";
+        var query = "SELECT * FROM USER WHERE STATUS = 'A' AND ID IN (SELECT USERID FROM TEAMMEMBER WHERE STATUS = 'A' AND TEAMID IN (SELECT ID FROM TEAM WHERE STATUS = 'A' AND TEAMNAME = '" + teamName + "'))";
         var users = [];
         var user;
         db.each(query,
@@ -464,7 +464,7 @@ function getUsersByTeamName(db, teamName) {
 exports.getUsersByChannelId = getUsersByChannelId;
 function getUsersByChannelId(db, id) {
     return new Promise((resolve, reject) => {
-        var query = "SELECT * FROM USER WHERE ID IN (SELECT USERID FROM TEAMMEMBER WHERE TEAMID IN (SELECT TEAMID FROM CHANNEL WHERE ID = '" + id + "'))";
+        var query = "SELECT * FROM USER WHERE STATUS = 'A' AND ID IN (SELECT USERID FROM TEAMMEMBER WHERE STATUS = 'A' AND TEAMID IN (SELECT TEAMID FROM CHANNEL WHERE STATUS = 'A' AND ID = '" + id + "'))";
         var users = [];
         var user;
         db.each(query,
@@ -492,7 +492,7 @@ function getUsersByChannelId(db, id) {
 exports.getUsersByChannelName = getUsersByChannelName;
 function getUsersByChannelName(db, name) {
     return new Promise((resolve, reject) => {
-        var query = "SELECT * FROM USER WHERE ID IN (SELECT USERID FROM TEAMMEMBER WHERE TEAMID IN (SELECT TEAMID FROM CHANNEL WHERE CHANNELNAME = '" + name + "'))";
+        var query = "SELECT * FROM USER WHERE STATUS = 'A' AND ID IN (SELECT USERID FROM TEAMMEMBER WHERE STATUS = 'A' AND TEAMID IN (SELECT TEAMID FROM CHANNEL WHERE STATUS = 'A' AND CHANNELNAME = '" + name + "'))";
         var users = [];
         var user;
         db.each(query,
@@ -520,7 +520,7 @@ function getUsersByChannelName(db, name) {
 exports.getTeamsByUserId = getTeamsByUserId;
 function getTeamsByUserId(db, id) {
     return new Promise((resolve, reject) => {
-        var query = "SELECT * FROM TEAM WHERE ID IN (SELECT TEAMID FROM TEAMMEMBER WHERE USERID = '" + id + "')";
+        var query = "SELECT * FROM TEAM WHERE STATUS = 'A' AND ID IN (SELECT TEAMID FROM TEAMMEMBER WHERE STATUS = 'A' AND USERID = '" + id + "')";
         var teams = [];
         var team;
         db.each(query,
@@ -548,7 +548,7 @@ function getTeamsByUserId(db, id) {
 exports.getTeamsByUserName = getTeamsByUserName;
 function getTeamsByUserName(db, name) {
     return new Promise((resolve, reject) => {
-        var query = "SELECT * FROM TEAM WHERE ID IN (SELECT TEAMID FROM TEAMMEMBER WHERE USERID IN (SELECT ID FROM USER WHERE USERNAME = '" + name + "'))";
+        var query = "SELECT * FROM TEAM WHERE STATUS = 'A' AND ID IN (SELECT TEAMID FROM TEAMMEMBER WHERE STATUS = 'A' AND USERID IN (SELECT ID FROM USER WHERE STATUS = 'A' AND USERNAME = '" + name + "'))";
         var teams = [];
         var team;
         db.each(query,
@@ -580,8 +580,11 @@ function getChannelsByUserId(db, id) {
         var query = "SELECT C.*, NM.NUMBEROFMESSAGES " +
                     "  FROM CHANNEL C INNER JOIN TEAM T ON C.TEAMID = T.ID " +
                     "                 INNER JOIN TEAMMEMBER TM ON T.ID = TM.TEAMID " +
-                    "                 INNER JOIN (SELECT CHANNELID, COUNT(*) AS NUMBEROFMESSAGES FROM MESSAGE GROUP BY CHANNELID) NM ON C.ID = NM.CHANNELID " +
+                    "                 INNER JOIN (SELECT CHANNELID, COUNT(*) AS NUMBEROFMESSAGES FROM MESSAGE WHERE STATUS = 'A' GROUP BY CHANNELID) NM ON C.ID = NM.CHANNELID " +
                     " WHERE C.TYPE != 'P' " +
+                    "   AND C.STATUS = 'A' " +
+                    "   AND T.STATUS = 'A' " +
+                    "   AND TM.STATUS = 'A' " +
                     "   AND TM.USERID = '" + id + "' " +
                     " ORDER BY C.ID";
 
@@ -617,8 +620,11 @@ function getPrivateChannelsByUserId(db, id) {
         var query = "SELECT C.*, NM.NUMBEROFMESSAGES " +
                     "  FROM CHANNEL C INNER JOIN TEAM T ON C.TEAMID = T.ID " +
                     "                 INNER JOIN TEAMMEMBER TM ON T.ID = TM.TEAMID " +
-                    "                 INNER JOIN (SELECT CHANNELID, COUNT(*) AS NUMBEROFMESSAGES FROM MESSAGE GROUP BY CHANNELID) NM ON C.ID = NM.CHANNELID " +
+                    "                 INNER JOIN (SELECT CHANNELID, COUNT(*) AS NUMBEROFMESSAGES FROM MESSAGE WHERE STATUS = 'A' GROUP BY CHANNELID) NM ON C.ID = NM.CHANNELID " +
                     " WHERE C.TYPE = 'P' " +
+                    "   AND C.STATUS = 'A' " +
+                    "   AND T.STATUS = 'A' " +
+                    "   AND TM.STATUS = 'A' " +
                     "   AND TM.USERID = '" + id + "' " +
                     "ORDER BY C.ID";
 
@@ -649,7 +655,7 @@ function getPrivateChannelsByUserId(db, id) {
 exports.getChannelsByUserName = getChannelsByUserName;
 function getChannelsByUserName(db, name) {
     return new Promise((resolve, reject) => {
-        var query = "SELECT * FROM CHANNEL WHERE TEAMID IN (SELECT TEAMID FROM TEAMMEMBER WHERE USERID IN (SELECT ID FROM USER WHERE USERNAME = '" + name + "'))";
+        var query = "SELECT * FROM CHANNEL WHERE STATUS = 'A' AND TEAMID IN (SELECT TEAMID FROM TEAMMEMBER WHERE STATUS = 'A' AND USERID IN (SELECT ID FROM USER WHERE STATUS = 'A' AND USERNAME = '" + name + "'))";
         var channels = [];
         var channel;
         db.each(query,
@@ -711,7 +717,7 @@ exports.getMessageById = getMessageById;
 function getMessageById(db, id) {
     return new Promise((resolve, reject) => {
         //var query = "SELECT * FROM MESSAGE WHERE ID = '" + id + "'";
-        var query = "SELECT ID, MESSAGE, (SELECT USERNAME FROM USER WHERE ID = USERID) as USERNAME, CHANNELID, DATE FROM MESSAGE WHERE ID = '" + id + "' ORDER BY DATE DESC";
+        var query = "SELECT ID, MESSAGE, (SELECT USERNAME FROM USER WHERE STATUS = 'A' AND ID = USERID) as USERNAME, CHANNELID, DATE FROM MESSAGE WHERE STATUS = 'A' AND ID = '" + id + "' ORDER BY DATE DESC";
         var message;
         db.each(query,
             function(err, row) {
@@ -739,7 +745,7 @@ exports.getMessages = getMessages;
 function getMessages(db) {
     return new Promise((resolve, reject) => {
         //var query = "SELECT * FROM MESSAGE ORDER BY DATE DESC";
-        var query = "SELECT ID, MESSAGE, (SELECT USERNAME FROM USER WHERE ID = USERID) as USERNAME, CHANNELID, DATE FROM MESSAGE ORDER BY DATE DESC";
+        var query = "SELECT ID, MESSAGE, (SELECT USERNAME FROM USER WHERE STATUS = 'A' AND ID = USERID) as USERNAME, CHANNELID, DATE FROM MESSAGE WHERE STATUS = 'A' ORDER BY DATE DESC";
         var messages = [];
         var message;
         db.each(query,
@@ -768,7 +774,7 @@ function getMessages(db) {
 exports.getMessagesByChannelId = getMessagesByChannelId;
 function getMessagesByChannelId(db, channelId) {
     return new Promise((resolve, reject) => {
-        var query = "SELECT * FROM MESSAGE WHERE CHANNELID = '" + channelId + "' ORDER BY DATE DESC";
+        var query = "SELECT * FROM MESSAGE WHERE STATUS = 'A' AND CHANNELID = '" + channelId + "' ORDER BY DATE DESC";
         var messages = [];
         var message;
         db.each(query,
@@ -796,7 +802,7 @@ function getMessagesByChannelId(db, channelId) {
 exports.getMessagesByChannelName = getMessagesByChannelName;
 function getMessagesByChannelName(db, channelName) {
     return new Promise((resolve, reject) => {
-        var query = "SELECT * FROM MESSAGE WHERE CHANNELID = (SELECT ID FROM CHANNEL WHERE CHANNELNAME = '" + channelName + "') ORDER BY DATE DESC";
+        var query = "SELECT * FROM MESSAGE WHERE STATUS = 'A' AND CHANNELID = (SELECT ID FROM CHANNEL WHERE STATUS = 'A' AND CHANNELNAME = '" + channelName + "') ORDER BY DATE DESC";
         var messages = [];
         var message;
         db.each(query,
@@ -824,7 +830,7 @@ function getMessagesByChannelName(db, channelName) {
 exports.validateUser = validateUser;
 function validateUser(db, username, password) {
     return new Promise((resolve, reject) => {
-        var query = "SELECT * FROM USER WHERE USERNAME = '" + username + "' AND PASSWORD = '" + password + "'";
+        var query = "SELECT * FROM USER WHERE STATUS = 'A' AND USERNAME = '" + username + "' AND PASSWORD = '" + password + "'";
         var user;
         db.each(query,
             function(err, row) {
@@ -850,7 +856,7 @@ function validateUser(db, username, password) {
 exports.getMessagesByUserId = getMessagesByUserId;
 function getMessagesByUserId(db, userId) {
     return new Promise((resolve, reject) => {
-        var query = "SELECT * FROM MESSAGE WHERE USERID = '" + userId + "' ORDER BY DATE DESC";
+        var query = "SELECT * FROM MESSAGE WHERE STATUS = 'A' AND USERID = '" + userId + "' ORDER BY DATE DESC";
         var messages = [];
         var message;
         db.each(query,
@@ -878,7 +884,7 @@ function getMessagesByUserId(db, userId) {
 exports.getMessagesByUserName = getMessagesByUserName;
 function getMessagesByUserName(db, userName) {
     return new Promise((resolve, reject) => {
-        var query = "SELECT * FROM MESSAGE WHERE USERID = (SELECT ID FROM USER WHERE USERNAME = '" + userName + "') ORDER BY DATE DESC";
+        var query = "SELECT * FROM MESSAGE WHERE STATUS = 'A' AND USERID = (SELECT ID FROM USER WHERE STATUS = 'A' AND USERNAME = '" + userName + "') ORDER BY DATE DESC";
         var messages = [];
         var message;
         db.each(query,
@@ -897,6 +903,54 @@ function getMessagesByUserName(db, userName) {
                     }
                     else{
                         resolve(JSON.stringify(messages));
+                    }
+                }
+        });
+    });
+}
+
+exports.deactivateMessage = deactivateMessage;
+function deactivateMessage(db, id) {
+    return new Promise((resolve, reject) => {
+        var query = "UPDATE MESSAGE SET STATUS = 'D' WHERE ID = '" + id + "'";
+        //console.log("Deactivate Message Query:  ", query); 
+        db.run(query,
+            function(err) {
+                if(err) {
+                    reject(err);
+                    throw err;
+                }
+                else {
+                    //console.log(getMessageById(db, id));
+                    resolve(getDeactivatedMessageById(db, id));
+                }
+        });
+    });
+}
+
+exports.getDeactivatedMessageById = getDeactivatedMessageById;
+function getDeactivatedMessageById(db, id) {
+    return new Promise((resolve, reject) => {
+        //var query = "SELECT * FROM MESSAGE WHERE ID = '" + id + "'";
+        var query = "SELECT ID, MESSAGE, (SELECT USERNAME FROM USER WHERE STATUS = 'A' AND ID = USERID) as USERNAME, CHANNELID, DATE, STATUS FROM MESSAGE WHERE STATUS = 'D' AND ID = '" + id + "' ORDER BY DATE DESC";
+        var message;
+        db.each(query,
+            function(err, row) {
+                //message = { id: row.ID, message:  row.MESSAGE, userid: row.USERID, channelid: row.CHANNELID, date:  row.DATE };
+                message = { id: row.ID, message:  row.MESSAGE, username: row.USERNAME, channelid: row.CHANNELID, date:  row.DATE, status:  row.STATUS };
+            },
+            function(err) {
+                if(err) {
+                    reject(err);
+                    throw err;
+                }
+                else {
+                    if(message === undefined){
+                        resolve(JSON.stringify(0));
+                    }
+                    else{
+                        //console.log(message);
+                        resolve(JSON.stringify(message));
                     }
                 }
         });

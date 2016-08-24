@@ -30,34 +30,39 @@ try {
 if (!dbexists) {
     db.serialize(function() {
         var createUserTableSql = "CREATE TABLE IF NOT EXISTS USER " +
-                       "(ID             INTEGER         PRIMARY KEY     AUTOINCREMENT NOT NULL," +
+                       "(ID             INTEGER         PRIMARY KEY     AUTOINCREMENT NOT NULL, " +
                        " USERNAME       CHAR(50)                                      NOT NULL, " +
                        " NAME           CHAR(50)                                      NOT NULL, " +
                        " EMAIL          CHAR(50)                                      NOT NULL, " +
-                       " PASSWORD       CHAR(50)                                      NOT NULL)"; 
+                       " PASSWORD       CHAR(50)                                      NOT NULL, " +
+                       " STATUS         CHAR(1)                                       NOT NULL  DEFAULT 'A' )";
 
         var createTeamTableSql = "CREATE TABLE IF NOT EXISTS TEAM " +
-                       "(ID             INTEGER         PRIMARY KEY     AUTOINCREMENT NOT NULL," +
-                       " TEAMNAME       CHAR(50)                                      NOT NULL)";
+                       "(ID             INTEGER         PRIMARY KEY     AUTOINCREMENT NOT NULL, " +
+                       " TEAMNAME       CHAR(50)                                      NOT NULL, " +
+                       " STATUS         CHAR(1)                                       NOT NULL  DEFAULT 'A' )";
 
         var createChannelTableSql = "CREATE TABLE IF NOT EXISTS CHANNEL " +
-                       "(ID             INTEGER         PRIMARY KEY     AUTOINCREMENT NOT NULL," +
-                       " CHANNELNAME    CHAR(50)                                      NOT NULL," +
-                       " TEAMID         INT                                           NOT NULL," +
-                       " DESCRIPTION    TEXT,                                                  " +
-                       " TYPE           CHAR(1)                                       NOT NULL)";
+                       "(ID             INTEGER         PRIMARY KEY     AUTOINCREMENT NOT NULL, " +
+                       " CHANNELNAME    CHAR(50)                                      NOT NULL, " +
+                       " TEAMID         INT                                           NOT NULL, " +
+                       " DESCRIPTION    TEXT,                                                   " +
+                       " TYPE           CHAR(1)                                       NOT NULL, " +
+                       " STATUS         CHAR(1)                                       NOT NULL  DEFAULT 'A' )";
                        
         var createMessageTableSql = "CREATE TABLE IF NOT EXISTS MESSAGE " +
-                       "(ID             INTEGER         PRIMARY KEY     AUTOINCREMENT NOT NULL," +
+                       "(ID             INTEGER         PRIMARY KEY     AUTOINCREMENT NOT NULL, " +
                        " MESSAGE        TEXT                                          NOT NULL, " + 
                        " USERID         INT                                           NOT NULL, " + 
                        " CHANNELID      INT                                           NOT NULL, " + 
-                       " DATE           TEXT                                          NOT NULL)"; 
+                       " DATE           TEXT                                          NOT NULL, " +
+                       " STATUS         CHAR(1)                                       NOT NULL  DEFAULT 'A' )"; 
 
         var createTeamMemberTableSql = "CREATE TABLE IF NOT EXISTS TEAMMEMBER " +
-                       "(ID             INTEGER         PRIMARY KEY     AUTOINCREMENT NOT NULL," +
-                       " USERID         INT                                           NOT NULL," +
-                       " TEAMID         INT                                           NOT NULL)"; 
+                       "(ID             INTEGER         PRIMARY KEY     AUTOINCREMENT NOT NULL, " +
+                       " USERID         INT                                           NOT NULL, " +
+                       " TEAMID         INT                                           NOT NULL, " +
+                       " STATUS         CHAR(1)                                       NOT NULL  DEFAULT 'A' )";
 
         db.run(createUserTableSql);
         db.run(createTeamTableSql);
@@ -185,7 +190,7 @@ if (!dbexists) {
 }
 
 db.each("SELECT * FROM USER", function(err, row) {
-     console.log(row.ID + " : " + row.USERNAME + " : " + row.NAME + " : " + row.EMAIL + " : " + row.PASSWORD);
+     console.log(row.ID + " : " + row.USERNAME + " : " + row.NAME + " : " + row.EMAIL + " : " + row.PASSWORD + " : " + row.STATUS);
 });
 
 db.close();

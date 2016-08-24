@@ -8,7 +8,7 @@ var chaiAsPromised = require("chai-as-promised");
 chai.use(chaiAsPromised); 
 chai.should(); 
 
-var conn = new sqlite3.Database('slackclone.db');
+var conn = new sqlite3.Database('test.db');
 
 describe('Test SlackService', () => {
     //this.timeout(15000);
@@ -141,18 +141,19 @@ describe('Test SlackService', () => {
 
     it('#8 - given team info, create that team in database', function(done) {
       var teamname = 'testteamname';
-      var expected = 7;
+      var expected = 10;
       slackService.createTeam(conn, teamname).should.eventually.equal(expected).notify(done);
     });
 
     it('#9 - given a non existent team id, return 0', function(done) {
-      var id = 7;
+      var id = 10;
       var expected = 0;
       slackService.getTeamById(conn, id).should.eventually.equal(JSON.stringify(expected)).notify(done);
     });
 
     it('#10 - get all the teams, return 0 if no teams found', function(done) {
-        var expected = [{"id":1,"teamname":"slack"},{"id":2,"teamname":"tweeter"},{"id":3,"teamname":"ssa4week"},{"id":4,"teamname":"team1"},{"id":5,"teamname":"team2"},{"id":6,"teamname":"abuShuvo"}];
+        var expected = [{"id":1,"teamname":"slack"},{"id":2,"teamname":"tweeter"},{"id":3,"teamname":"ssa4week"},{"id":4,"teamname":"team1"},{"id":5,"teamname":"team2"},{"id":6,"teamname":"abuShuvo"},
+        {"id":7,"teamname":"abuSly"},{"id":8,"teamname":"abuCharles"},{"id":9,"teamname":"swarupShuvo"}];
         slackService.getTeams(conn).should.eventually.equal(JSON.stringify(expected)).notify(done);
     });
 
@@ -172,8 +173,8 @@ describe('Test SlackService', () => {
       var channelName = 'testchallenname';
       var teamId = 2;
       var description = 'testdescription';
-      var type = 'testtype';
-      var expected = 8;
+      var type = 'T';
+      var expected = 11;
       slackService.createChannel(conn, channelName, teamId, description, type).should.eventually.equal(expected).notify(done);
     });
 
@@ -184,10 +185,11 @@ describe('Test SlackService', () => {
     });
 
     it('#15 - get all the channels, return 0 if no channels found', function(done) {
-        var expected = [{"id":1,"channelname":"slackChannel","teamid":1,"description":"Channel for team slack","type":"T"},{"id":2,"channelname":"ssa4week","teamid":3,"description":"Channel for team ssa4week","type":"T"}
-        ,{"id":3,"channelname":"general","teamid":3,"description":"Channel for team general","type":"T"},{"id":4,"channelname":"team1","teamid":4,"description":"Channel for team team1","type":"T"},
-        {"id":5,"channelname":"team2","teamid":5,"description":"Channel for team team2","type":"T"},{"id":6,"channelname":"abuShuvo","teamid":6,"description":"Private Channel for team abuShuvo","type":"P"},
-        {"id":7,"channelname":"tweeterChannel","teamid":2,"description":"Channel for team tweeter","type":"T"}];
+        var expected = [{"id":1,"channelname":"slackChannel","teamid":1,"description":"Channel for team slack","type":"T"},{"id":2,"channelname":"ssa4week","teamid":3,"description":"Channel for team ssa4week","type":"T"},
+        {"id":3,"channelname":"general","teamid":3,"description":"Channel for team general","type":"T"},{"id":4,"channelname":"team1","teamid":4,"description":"Channel for team team1","type":"T"},
+        {"id":5,"channelname":"team2","teamid":5,"description":"Channel for team team2","type":"T"},{"id":6,"channelname":"shuvo.a-abu.m","teamid":6,"description":"Private Channel for team abuShuvo","type":"P"},
+        {"id":7,"channelname":"tweeterChannel","teamid":2,"description":"Channel for team tweeter","type":"T"},{"id":8,"channelname":"abu.m-sly.h","teamid":7,"description":"Private Channel for team abuSly","type":"P"},
+        {"id":9,"channelname":"abu.m-charles.w","teamid":8,"description":"Private Channel for team abuCharles","type":"P"},{"id":10,"channelname":"swarup.k-shuvo.a","teamid":9,"description":"Private Channel for team swarupShuvo","type":"P"}];
         slackService.getChannels(conn).should.eventually.equal(JSON.stringify(expected)).notify(done);
     });
 
@@ -237,41 +239,41 @@ describe('Test SlackService', () => {
     });
 
     it('#23 - given channel name, return associated users', function(done) {
-      var channelName = 'abuShuvo';
+      var channelName = 'shuvo.a-abu.m';
       var expected = [{"id":1,"username":"shuvo","name":"Shuvo Ahmed","email":"shuvo@myslack.com","password":"shuvopassword"},{"id":2,"username":"abu","name":"Abu Moinuddin","email":"abu@myslack.com","password":"abupassword"}];
       slackService.getUsersByChannelName(conn, channelName).should.eventually.equal(JSON.stringify(expected)).notify(done);
     });
 
     it('#24 - given user id, return associated teams', function(done) {
       var userId = 1;
-      var expected = [{"id":1,"teamname":"slack"},{"id":2,"teamname":"tweeter"},{"id":3,"teamname":"ssa4week"},{"id":5,"teamname":"team2"},{"id":6,"teamname":"abuShuvo"}];
+      var expected = [{"id":1,"teamname":"slack"},{"id":2,"teamname":"tweeter"},{"id":3,"teamname":"ssa4week"},{"id":5,"teamname":"team2"},{"id":6,"teamname":"abuShuvo"},{"id":9,"teamname":"swarupShuvo"}];
       slackService.getTeamsByUserId(conn, userId).should.eventually.equal(JSON.stringify(expected)).notify(done);
     });
 
     it('#25 - given username, return associated teams', function(done) {
       var username = 'abu';
-      var expected = [{"id":1,"teamname":"slack"},{"id":2,"teamname":"tweeter"},{"id":3,"teamname":"ssa4week"},{"id":4,"teamname":"team1"},{"id":6,"teamname":"abuShuvo"}];
+      var expected = [{"id":1,"teamname":"slack"},{"id":2,"teamname":"tweeter"},{"id":3,"teamname":"ssa4week"},{"id":4,"teamname":"team1"},{"id":6,"teamname":"abuShuvo"},{"id":7,"teamname":"abuSly"},{"id":8,"teamname":"abuCharles"}];
       slackService.getTeamsByUserName(conn, username).should.eventually.equal(JSON.stringify(expected)).notify(done);
     });
 
     it('#26 - given user id, return associated channels', function(done) {
       var userId = 6;
-      var expected = [{"id":1,"channelname":"slackChannel","teamid":1,"description":"Channel for team slack"},{"id":2,"channelname":"ssa4week","teamid":3,"description":"Channel for team ssa4week"},
-      {"id":3,"channelname":"general","teamid":3,"description":"Channel for team general"},{"id":4,"channelname":"team1","teamid":4,"description":"Channel for team team1"}];
+      var expected = [{"id":1,"channelname":"slackChannel","teamid":1,"description":"Channel for team slack","type":"T","numberofmessages":4},{"id":2,"channelname":"ssa4week","teamid":3,"description":"Channel for team ssa4week","type":"T","numberofmessages":5},
+      {"id":4,"channelname":"team1","teamid":4,"description":"Channel for team team1","type":"T","numberofmessages":2}];
       slackService.getChannelsByUserId(conn, userId).should.eventually.equal(JSON.stringify(expected)).notify(done);
     });
 
     it('#27 - given username, return associated channels', function(done) {
       var username = 'charles';
       var expected = [{"id":2,"channelname":"ssa4week","teamid":3,"description":"Channel for team ssa4week"},{"id":3,"channelname":"general","teamid":3,"description":"Channel for team general"},
-      {"id":7,"channelname":"tweeterChannel","teamid":2,"description":"Channel for team tweeter"}];
+      {"id":7,"channelname":"tweeterChannel","teamid":2,"description":"Channel for team tweeter"},{"id":9,"channelname":"abu.m-charles.w","teamid":8,"description":"Private Channel for team abuCharles"}];
       slackService.getChannelsByUserName(conn, username).should.eventually.equal(JSON.stringify(expected)).notify(done);
     });
 
     it('#28 - given user id and team id, add user to that team', function(done) {
         var userid = 3;
         var teamid = 1;
-        var expected = 22;
+        var expected = 28;
         slackService.createTeamMember(conn, userid, teamid).should.eventually.equal(expected).notify(done);
     });
 
@@ -287,34 +289,34 @@ describe('Test SlackService', () => {
 
     it('#30 - given message id, retrieve that message from the database', function(done) {
         var messageId = 1;
-        var expected = {"id":1,"message":"Hi, Swarup Here!","username":"swarup","channelid":1,"date":"2016-08-11 14:45:00"};
+        var expected = {"id":1,"message":"Hi, Swarup Here!","username":"swarup","channelid":1,"date":"2016-08-22T10:10:01.123-0400"};
         slackService.getMessageById(conn, messageId).should.eventually.equal(JSON.stringify(expected)).notify(done);
     });
 
     it('#31 - retrieve all the messages', function(done) {
-        var expected = [{"id":22,"message":"hello","username":"abu","channelid":6,"date":"2016-08-23T16:42:14.784Z"},{"id":21,"message":"hello","username":"abu","channelid":3,"date":"2016-08-23T16:41:46.737Z"},
-        {"id":20,"message":"let's put the first message in #SlackChannel","username":"abu","channelid":3,"date":"2016-08-23T16:41:32.396Z"},{"id":15,"message":"Hi Team1!!","username":"sly","channelid":4,"date":"2016-08-22 12:47:00"},
-        {"id":17,"message":"Hi Team2!!","username":"swarup","channelid":5,"date":"2016-08-22 12:47:00"},{"id":14,"message":"Team1 here","username":"abu","channelid":4,"date":"2016-08-22 12:46:00"},
-        {"id":16,"message":"Team2!!!!!","username":"shuvo","channelid":5,"date":"2016-08-22 12:46:00"},{"id":4,"message":"Hi Team Slack!","username":"abu","channelid":1,"date":"2016-08-11 14:47:00"},
-        {"id":2,"message":"Hello from Sly","username":"sly","channelid":1,"date":"2016-08-11 14:46:00"},{"id":1,"message":"Hi, Swarup Here!","username":"swarup","channelid":1,"date":"2016-08-11 14:45:00"},
-        {"id":5,"message":"Hi Team Tweeter!","username":"shuvo","channelid":7,"date":"2016-08-11 14:45:00"},{"id":3,"message":"Shuvo Here...","username":"shuvo","channelid":1,"date":"2016-08-11 14:44:00"},
-        {"id":6,"message":"Hello...","username":"abu","channelid":7,"date":"2016-08-11 14:44:00"},{"id":7,"message":"Welcome to Tweeter!","username":"charles","channelid":7,"date":"2016-08-11 14:43:00"},
-        {"id":12,"message":"Learning java","username":"swarup","channelid":2,"date":"2016-08-05 12:47:00"},{"id":19,"message":"Yes, Angular is fun","username":"shuvo","channelid":6,"date":"2016-08-05 12:47:00"},
-        {"id":8,"message":"Hi!","username":"beiying","channelid":7,"date":"2016-08-05 12:46:00"},{"id":9,"message":"BootCamp Starts","username":"shuvo","channelid":2,"date":"2016-08-05 12:46:00"},
-        {"id":11,"message":"Time to learn","username":"charles","channelid":2,"date":"2016-08-05 12:46:00"},{"id":13,"message":"Nodejs is fun","username":"sly","channelid":2,"date":"2016-08-05 12:46:00"},
-        {"id":18,"message":"Angular is cool","username":"abu","channelid":6,"date":"2016-08-05 12:46:00"},{"id":10,"message":"Here for 4 weeks","username":"abu","channelid":2,"date":"2016-08-05 12:45:00"}];
+        var expected = [{"id":22,"message":"Message between Shuvo and Swarup","username":"shuvo","channelid":9,"date":"2016-08-24T13:11:16.363-0400"},{"id":21,"message":"Message between Abu and Charles","username":"charles","channelid":8,"date":"2016-08-24T12:42:17.225-0400"},
+        {"id":20,"message":"Message between Abu and Sylvester","username":"abu","channelid":7,"date":"2016-08-24T11:28:09.785-0400"},{"id":19,"message":"Yes, Angular is fun","username":"shuvo","channelid":6,"date":"2016-08-24T10:21:05.564-0400"},
+        {"id":18,"message":"Angular is cool","username":"abu","channelid":6,"date":"2016-08-24T10:08:47.444-0400"},{"id":17,"message":"Hi Team2!!","username":"swarup","channelid":5,"date":"2016-08-24T10:01:33.454-0400"},
+        {"id":15,"message":"Hi Team1!!","username":"sly","channelid":4,"date":"2016-08-24T09:14:25.129-0400"},{"id":16,"message":"Team2!!!!!","username":"shuvo","channelid":5,"date":"2016-08-24T09:13:21.842-0400"},
+        {"id":14,"message":"Team1 here","username":"abu","channelid":4,"date":"2016-08-24T09:10:26.246-0400"},{"id":13,"message":"Nodejs is fun","username":"sly","channelid":2,"date":"2016-08-24T08:45:19.357-0400"},
+        {"id":12,"message":"Learning java","username":"swarup","channelid":2,"date":"2016-08-24T08:41:42.359-0400"},{"id":11,"message":"Time to learn","username":"charles","channelid":2,"date":"2016-08-23T16:55:14.426-0400"},
+        {"id":10,"message":"Here for 4 weeks","username":"abu","channelid":2,"date":"2016-08-23T12:48:18.125-0400"},{"id":9,"message":"BootCamp Starts","username":"shuvo","channelid":2,"date":"2016-08-23T11:45:44.523-0400"},
+        {"id":8,"message":"Hi!","username":"beiying","channelid":7,"date":"2016-08-23T10:18:45.785-0400"},{"id":7,"message":"Welcome to Tweeter!","username":"charles","channelid":7,"date":"2016-08-23T10:11:59.559-0400"},
+        {"id":6,"message":"Hello...","username":"abu","channelid":7,"date":"2016-08-23T09:12:04.254-0400"},{"id":5,"message":"Hi Team Tweeter!","username":"shuvo","channelid":7,"date":"2016-08-23T09:01:24.459-0400"},
+        {"id":4,"message":"Hi Team Slack!","username":"abu","channelid":1,"date":"2016-08-22T15:55:22.458-0400"},{"id":3,"message":"Shuvo Here...","username":"shuvo","channelid":1,"date":"2016-08-22T14:21:19.458-0400"},
+        {"id":2,"message":"Hello from Sly","username":"sly","channelid":1,"date":"2016-08-22T13:19:05.256-0400"},{"id":1,"message":"Hi, Swarup Here!","username":"swarup","channelid":1,"date":"2016-08-22T10:10:01.123-0400"}];
         slackService.getMessages(conn).should.eventually.equal(JSON.stringify(expected)).notify(done);
     });
     
     it('#32 - given a channel id, retrieve all the messages for that channel', function(done) {
         var channelId = 6;
-        var expected = [{"id":22,"message":"hello","userid":2,"channelid":6,"date":"2016-08-23T16:42:14.784Z"},{"id":19,"message":"Yes, Angular is fun","userid":1,"channelid":6,"date":"2016-08-05 12:47:00"},{"id":18,"message":"Angular is cool","userid":2,"channelid":6,"date":"2016-08-05 12:46:00"}];
+        var expected =  [{"id":19,"message":"Yes, Angular is fun","userid":1,"channelid":6,"date":"2016-08-24T10:21:05.564-0400"},{"id":18,"message":"Angular is cool","userid":2,"channelid":6,"date":"2016-08-24T10:08:47.444-0400"}];
         slackService.getMessagesByChannelId(conn, channelId).should.eventually.equal(JSON.stringify(expected)).notify(done);
     });
 
     it('#33 - given a channel name, retrieve all the messages for that channel', function(done) {
         var channelName = 'team2';
-        var expected = [{"id":17,"message":"Hi Team2!!","userid":7,"channelid":5,"date":"2016-08-22 12:47:00"},{"id":16,"message":"Team2!!!!!","userid":1,"channelid":5,"date":"2016-08-22 12:46:00"}];
+        var expected = [{"id":17,"message":"Hi Team2!!","userid":7,"channelid":5,"date":"2016-08-24T10:01:33.454-0400"},{"id":16,"message":"Team2!!!!!","userid":1,"channelid":5,"date":"2016-08-24T09:13:21.842-0400"}];
         slackService.getMessagesByChannelName(conn, channelName).should.eventually.equal(JSON.stringify(expected)).notify(done);
     });
     
@@ -327,22 +329,28 @@ describe('Test SlackService', () => {
 
     it('#35 - given an user id, retrieve all the messages for that user', function(done) {
         var userId = 7;
-        var expected = [{"id":17,"message":"Hi Team2!!","userid":7,"channelid":5,"date":"2016-08-22 12:47:00"},{"id":1,"message":"Hi, Swarup Here!","userid":7,"channelid":1,"date":"2016-08-11 14:45:00"},
-        {"id":12,"message":"Learning java","userid":7,"channelid":2,"date":"2016-08-05 12:47:00"}];
+        var expected = [{"id":17,"message":"Hi Team2!!","userid":7,"channelid":5,"date":"2016-08-24T10:01:33.454-0400"},{"id":12,"message":"Learning java","userid":7,"channelid":2,"date":"2016-08-24T08:41:42.359-0400"},
+        {"id":1,"message":"Hi, Swarup Here!","userid":7,"channelid":1,"date":"2016-08-22T10:10:01.123-0400"}];
         slackService.getMessagesByUserId(conn, userId).should.eventually.equal(JSON.stringify(expected)).notify(done);
     });
 
     it('#36 - given an user name, retrieve all the messages for that user', function(done) {
         var userName = 'sly';
-        var expected = [{"id":15,"message":"Hi Team1!!","userid":6,"channelid":4,"date":"2016-08-22 12:47:00"},{"id":2,"message":"Hello from Sly","userid":6,"channelid":1,"date":"2016-08-11 14:46:00"},
-        {"id":13,"message":"Nodejs is fun","userid":6,"channelid":2,"date":"2016-08-05 12:46:00"}];
+        var expected = [{"id":15,"message":"Hi Team1!!","userid":6,"channelid":4,"date":"2016-08-24T09:14:25.129-0400"},{"id":13,"message":"Nodejs is fun","userid":6,"channelid":2,"date":"2016-08-24T08:45:19.357-0400"},
+        {"id":2,"message":"Hello from Sly","userid":6,"channelid":1,"date":"2016-08-22T13:19:05.256-0400"}];
         slackService.getMessagesByUserName(conn, userName).should.eventually.equal(JSON.stringify(expected)).notify(done);
     });
 
     it('#37 - given user id, return associated private channels', function(done) {
       var userId = 1;
-      var expected = [{"id":6,"channelname":"abuShuvo","teamid":6,"description":"Private Channel for team abuShuvo"}];
+      var expected = [{"id":6,"channelname":"shuvo.a-abu.m","teamid":6,"description":"Private Channel for team abuShuvo","type":"P","numberofmessages":2}];
       slackService.getPrivateChannelsByUserId(conn, userId).should.eventually.equal(JSON.stringify(expected)).notify(done);
+    });
+
+    it('#38 - given a message id, deactivate that message in database', function(done) {
+      var messageId = 1;
+      var expected = {"id":1,"message":"Hi, Swarup Here!","username":"swarup","channelid":1,"date":"2016-08-22T10:10:01.123-0400","status":"D"};
+      slackService.deactivateMessage(conn, messageId).should.eventually.equal(JSON.stringify(expected)).notify(done);
     });
 
 });
