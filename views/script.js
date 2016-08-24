@@ -1,4 +1,5 @@
-// create the module and name it slackCloneApp
+    //document.location.reload(2,true);
+    // create the module and name it slackCloneApp
 	var slackCloneApp = angular.module('slackCloneApp', ['ngRoute', 'ngStorage']);
     //var slackCloneApp = angular.module('slackCloneApp', ['ngStorage']);
 	// configure our routes
@@ -116,6 +117,9 @@
             
             //console.log( " $localStorage.user ", $localStorage.user);
             $localStorage.user= null;
+            cachedMessages=null;
+            channelid=null;
+            
             //console.log( " $localStorage.user ", $localStorage.user);
             $location.url("/"); // + /$sessionStorage.user.id);
             return;
