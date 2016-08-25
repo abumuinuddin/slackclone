@@ -1,6 +1,6 @@
     //document.location.reload(2,true);
     // create the module and name it slackCloneApp
-	var slackCloneApp = angular.module('slackCloneApp', ['ngRoute', 'ngStorage']);
+	var slackCloneApp = angular.module('slackCloneApp', ['ngRoute', 'ngStorage', 'ngSanitize']);
     //var slackCloneApp = angular.module('slackCloneApp', ['ngStorage']);
 	// configure our routes
 	slackCloneApp.config(function($routeProvider) {
@@ -23,6 +23,41 @@
             });
 
 	});
+
+	// slackCloneApp.filter('linkyWithHtml', function($filter) {
+	// 	return function(value) {
+	// 		var linked = $filter('linky')(value);
+	// 		var replaced = linked.replace(/\&gt;/g, '>').replace(/\&lt;/g, '<');
+	// 		return replaced;
+	// 	};
+	// });
+	
+	slackCloneApp.directive('fileModel', ['$parse', function($parse) {
+		return {
+			restrict: 'A',
+            link: function(scope, element, attrs) {
+				var model = $parse(attrs.fileModel);
+                var modelSetter = model.assign;
+                     
+                element.bind('change', function() {
+					scope.$apply(function() {
+						modelSetter(scope, element[0].files[0]);
+                    });
+                });
+            }
+        };
+    }]);
+		
+    slackCloneApp.service('fileUpload', ['$http', function($http) {
+		this.uploadFileToUrl = function(file, uploadUrl, callback) {
+			var fd = new FormData();
+            fd.append('file', file);
+            $http.post(uploadUrl, fd, {
+				transformRequest: angular.identity,
+				headers: {'Content-Type': undefined}
+            }).then(callback);
+		}
+    }]);
 
     slackCloneApp.factory('dataservice', function($http){
 
@@ -104,7 +139,7 @@
     });
 
     // create the controller and inject Angular's $scope
-	slackCloneApp.controller('mainController', function($scope, dataservice, $routeParams, $sessionStorage, $location, $filter, $interval) {
+	slackCloneApp.controller('mainController', function($scope, dataservice, $routeParams, $sessionStorage, $location, $filter, $interval, fileUpload, $sce) {
   
         var userData;
         var cachedMessages = [];
@@ -203,6 +238,7 @@
         $scope.enteredMessage = '';
         $scope.addName = function() {
             //console.log("input message -", $scope.enteredMessage);
+            //console.log("Uploaded File:  ", $scope.myFile);
 
             if ($scope.enteredMessage.trim() === "") {
                  $scope.showAddError = true;
@@ -219,14 +255,48 @@
                 }
                 if(val) {
                     //console.log("Inserted values..", val );
+                    val.message = $sce.trustAsHtml(val.message);
                     cachedMessages.push(val);
                 }
             })
             $scope.messages = cachedMessages;
+            $scope.enteredMessage = "";
             //console.log("Messages..:.", JSON.stringify($scope.messages));
 
         };
-  
+		
+		$scope.uploadFile = function () {
+            var file = $scope.myFile;
+
+            var uploadUrl = "/channel/uploadFile";
+            fileUpload.uploadFileToUrl(file, uploadUrl, function(response) {
+
+                $scope.showAddError = false;
+                
+                if ($scope.myFile === undefined) {
+                    $scope.showFileError = true;
+                    return;
+                }
+                $scope.showFileError = false;
+
+
+                fileMessage = {"message": "<a href=/upload/" + file.name +" target=\"_blank\">"+file.name+"</a>", "userid":$sessionStorage.user.id,"channelid":channelid,"date": $filter('date')(new Date(), 'yyyy-MM-ddTHH:mm:ss.sssZ')};
+                //console.log(fileMessage);
+				dataservice.insertMessage(fileMessage, function(val, err){
+					if (err){
+						console.log("err", err);
+					}
+					if(val) {
+						//console.log("Inserted values..", val );
+                        val.message = $sce.trustAsHtml(val.message);
+                        cachedMessages.push(val);
+					}
+				})
+				$scope.messages = cachedMessages;
+                $scope.myFile = "";
+                $scope.enteredMessage = "";            
+			});
+        };
 	});
 
 	slackCloneApp.controller('logonController', function($scope, dataservice, $location, $sessionStorage) { //, categories, , $sessionStorage, $sessionStorage

@@ -51,7 +51,7 @@
                         <strong>{{message.username}}</strong>&nbsp;<span style="font-size: 0.7em;" >{{message.date| date : 'medium'}}</span>
                         <br />
                         <div style="width: 500px; padding-left:20px">
-                            <span style="width:480px" >
+                            <span ng-bind-html="message.message" style="width:480px" >
                                 {{ message.message}}
                             </span>
                         </div>
@@ -78,9 +78,16 @@
                         <button type="submit" style="width: 65px; height:30px">
                             <i class="fa fa-paper-plane"></i>
                         </button><br/>
-                        
+                        <!--<input type="file" ngf-select="onFileSelect($files)" multiple>-->
+                        <input type = "file" file-model = "myFile"/>
+                        <button ng-click = "uploadFile()">Upload File</button>
+
                         <div  ng-class="{ 'has-error': form.enteredMessage.$dirty && form.enteredMessage.$error.required }">
                             <span style="color:red" ng-show="showAddError">Message content is required.</span>
+                        </div>
+
+                        <div  ng-class="{ 'has-error': form.myFile.$error.required }">
+                            <span style="color:red" ng-show="showFileError">File is not attached.</span>
                         </div>
 
                     </td>

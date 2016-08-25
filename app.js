@@ -3,6 +3,8 @@ var express = require('express');
 var bodyParser = require('body-parser');
 var sqlite3 = require('sqlite3').verbose();
 var fs = require('fs');
+var formidable = require('formidable');
+var path = require('path');
 var app = express();
 app.use(bodyParser.json());
 var dbservice = require('./slackservice.js');
@@ -50,6 +52,7 @@ pMessage.then(
 );*/
 
 app.use('/views', express.static(__dirname + '/views'));
+app.use('/upload', express.static(__dirname + '/upload'));
 
 app.post('/getChannelsByUserId', function (req, res) {
     console.log("/getChannelsByUserId/...req.bodyuserid: " + JSON.stringify(req.body.userid));
@@ -137,7 +140,9 @@ app.post('/getUser', function (req, res) {
 app.post('/insertMessage', function (req, res) {
     //console.log("/getMessages/req.params.id..." + req.params.id);
     //console.log("req.body....:", req.body.enteredName);
-    //console.log("req.body:", req.body.message + ":" + req.body.userid + ":" + req.body.channelid + ":" + req.body.date);
+    console.log("req.body:", req.body.message + ":" + req.body.userid + ":" + req.body.channelid + ":" + req.body.date);
+    //console.log("File in app.js:  ", req.body.file);
+    //var file = fs.readFileSync(req.body.file);
     var pInsertMessage = dbservice.createMessage
                                 (db, 
                                     req.body.message, 
@@ -157,6 +162,23 @@ app.post('/insertMessage', function (req, res) {
 
 });
 
+app.post('/channel/uploadFile', function(req, res){
+
+  var form = new formidable.IncomingForm();
+  form.multiples = true;
+  form.uploadDir = path.join(__dirname, '/upload');
+  form.on('file', function(field, file) {
+    fs.rename(file.path, path.join(form.uploadDir, file.name));
+  });
+  form.on('error', function(err) {
+    console.log("Erron on uploadFile:  ", err);
+  });
+  form.on('end', function() {
+    res.end('success');
+  });
+  form.parse(req);
+  res.send("success");
+});
 
 app.listen(3000, function () {
      console.log('Example app listening on port 3000!');
