@@ -55,7 +55,7 @@ app.use('/views', express.static(__dirname + '/views'));
 app.use('/upload', express.static(__dirname + '/upload'));
 
 app.post('/getChannelsByUserId', function (req, res) {
-    console.log("/getChannelsByUserId/...req.bodyuserid: " + JSON.stringify(req.body.userid));
+    //console.log("/getChannelsByUserId/...req.bodyuserid: " + JSON.stringify(req.body.userid));
                              
     //var pChannel = dbservice.getChannels(db); //'rubychannel'
 
@@ -91,17 +91,32 @@ app.post('/getChannels', function (req, res) {
 });*/
 
 app.post('/getPrivateChannelsByUserId', function (req, res) {
-    console.log("/getPrivateChannelsByUserId/...req.body.userid: " + JSON.stringify(req.body.userid));
+    //console.log("/getPrivateChannelsByUserId/...req.body.userid: " + JSON.stringify(req.body.userid));
     var pChannel = dbservice.getPrivateChannelsByUserId(db, req.body.userid);
     pChannel.then(
         (val) => {
-            console.log("getPrivateChannelsByUserId in appjs ....: "+ val);
+            //console.log("getPrivateChannelsByUserId in appjs ....: "+ val);
             res.send(val);
         },
         (err) => {
             console.log('oh no!', err);
         }
     );
+});
+
+app.post('/deactivateMessage', function (req, res) {
+    
+    var pDeactivateMessage = dbservice.deactivateMessage(db, req.body.id);
+    pDeactivateMessage.then(
+        (val) => {
+            console.log("pDeactivateMessage in appjs ....: "+ val);
+            res.send(val);
+        },
+        (err) => {
+            console.log('oh no!', err);
+        }
+    );
+
 });
 
 app.get('/getMessages', function (req, res) {
@@ -127,7 +142,7 @@ app.post('/getUser', function (req, res) {
     var pChannel = dbservice.validateUser(db, req.body.username, req.body.password); //'rubychannel'
     pChannel.then(
         (val) => { //same as function (val) {}
-            console.log("getUser in appjs ....: ", val);
+            //console.log("getUser in appjs ....: ", val);
             res.send(val);
         },
         (err) => {
@@ -152,7 +167,7 @@ app.post('/insertMessage', function (req, res) {
                                 );
     pInsertMessage.then(
         (val) => {
-            console.log("getMessages in appjs ....: ", val);
+            //console.log("getMessages in appjs ....: ", val);
             res.send(val);
         },
         (err) => {
