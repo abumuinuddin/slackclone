@@ -61,8 +61,6 @@
         }
         
         function getUser(user,  callback){
-
-
           $http({
             method: 'POST',
             url: '/getUser',
@@ -82,6 +80,18 @@
           }).success(callback);
         }
 
+        function deactivateMessage(message, callback) {
+            $http({
+                method: 'POST',
+                url: '/deactivateMessage',
+                data:message,
+                cache: true, // - you can cache the response
+            }).then(callback, function(res){
+                //Error handler
+                console.log("Error deactivateMessage (): ", res);
+            });
+        }
+
         return {
             //listchannels: getChannelData,
             listMessages: getMessagelData,
@@ -97,7 +107,8 @@
             insertMessage: insertMessage,
             getUser: getUser,
             getChannelsByUserId: getChannelsByUserId,
-            getPrivateChannelsByUserId: getPrivateChannelsByUserId
+            getPrivateChannelsByUserId: getPrivateChannelsByUserId,
+            deactivateMessage: deactivateMessage
             
         };
         
@@ -105,22 +116,40 @@
 
     // create the controller and inject Angular's $scope
 	slackCloneApp.controller('mainController', function($scope, dataservice, $routeParams, $sessionStorage, $location, $filter, $interval) {
-  
+
         var userData;
         var cachedMessages = [];
         var channelid;
         var channelname;
         $scope.today = new Date();
-        
+
         $scope.user = $sessionStorage.user;
 
-        $scope.logoutModule = function() {
+        $scope.deactivateMessage = function (messageid){
             
+            //var presentPath= $location.path();
+
+            console.log("messageid", messageid);
+            var theMessage = {"id": messageid, "message":$scope.enteredMessage,"userid":$sessionStorage.user.id,"channelid":channelid};
+            //dataservice.deactivateMessage();
+
+            dataservice.deactivateMessage(theMessage, function(messages) {
+                console.log("Message deleted: ", theMessage);
+                //$scope.messages = messages;
+                //cachedMessages=messages;
+            });
+
+            //$location.url(presentPath); // + /$sessionStorage.user.id);
+
+        }
+
+        $scope.logoutModule = function() {
+
             //console.log( " $sessionStorage.user ", $sessionStorage.user);
             $sessionStorage.user= null;
             cachedMessages=null;
             channelid=null;
-            
+
             //console.log( " $sessionStorage.user ", $sessionStorage.user);
             $location.url("/"); // + /$sessionStorage.user.id);
             return;
@@ -159,7 +188,7 @@
         function getUserChannels(userData, channelid) {
            dataservice.getChannelsByUserId(userData, channelid, function(response) {
                 $scope.channels = response.data; // server send data property in the response object for a promise .. then
-                console.log('getChannelsByUserId() channelid : ' + channelid);
+                console.log("getChannelsByUserId() channelid :" ,  channelid);
                 if (channelid == 0) {
                     channelid = response.data[0].id;
                     $scope.channelname=response.data[0].channelname;
@@ -223,6 +252,7 @@
                 }
             })
             $scope.messages = cachedMessages;
+            $scope.enteredMessage="";
             //console.log("Messages..:.", JSON.stringify($scope.messages));
 
         };

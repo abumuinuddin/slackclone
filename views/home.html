@@ -40,6 +40,21 @@
                                 <div style="font-size: 0.7em; color:#C2A2A2; padding-left:2em;">{{today | date }} </div>
                             </div>
                             <div style="flex:1; text-align: right" >
+                                <div class="dropdown">
+                                <!--<button class="dropbtn">Help</button>-->
+                                <a href="" class="dropbtn" style="font-size: 1.0em;"><strong>Help</strong>&nbsp;<i class="fa fa-info-circle"></i></a>
+                                    <div class="dropdown-content" style="width: 150px; text-align: left; font-size: 0.9em;">
+                                        <span style="font-size: 0.9em;"> <strong>&nbspTopics include:</strong </span>
+                                        <span style="font-size: 0.8em;"><br />
+                                            &nbsp;&nbsp;&nbsp;- Creating a Slack team<br />
+                                            &nbsp;&nbsp;&nbsp;- Editing your profile<br />
+                                            &nbsp;&nbsp;&nbsp;- Writing and replying to messages<br />
+                                            &nbsp;&nbsp;&nbsp;- Sharing links and files<br />
+                                            &nbsp;&nbsp;&nbsp;- Joining channels and groups<br />
+                                            &nbsp;&nbsp;&nbsp;- Creating posts and text snippets<br />
+                                        </span>
+                                    </div>
+                                </div>
                                 <a href="#/" ng-click="logoutModule()">Log Out&nbsp;<i class="fa fa-sign-out"></i></a>
                             <div>
                         </div>
@@ -58,7 +73,9 @@
                     </td>
                     <td>
                         <span style="width:20px; align:right">
-                            <i class="fa fa-trash" aria-hidden="true"></i>
+                            <a href="" ng-click="deactivateMessage(message.id)"><i class="fa fa-trash" aria-hidden="true"></i></a>
+                            <!--
+                            <input type="button" ng-click="deactivateMessage({ message.id)"><i class="fa fa-trash" aria-hidden="true"></i></input>-->
                         <span>
                     </td>
                     <!--
@@ -72,11 +89,11 @@
                 <tr >
                     <td colspan="3" style="text-align: left; padding:0.2em" >
 
-                        <textarea style="width: 562px; height: 35px;" cols="300" rows="1" ng-model="enteredMessage" ></textarea>
+                        <textarea style="width: 85%; height: 35px;" cols="300" rows="1" ng-model="enteredMessage" ></textarea>
                         <!-- <input type="submit" value="add"></input><br/> -->
                         
                         <button type="submit" style="width: 65px; height:30px">
-                            <i class="fa fa-paper-plane"></i>
+                            <i class="fa fa-send-o"></i>
                         </button><br/>
                         
                         <div  ng-class="{ 'has-error': form.enteredMessage.$dirty && form.enteredMessage.$error.required }">
