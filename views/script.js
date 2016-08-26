@@ -139,6 +139,16 @@
                     callback(messages);
                 });
             },
+            searchMessages: function(searchText, callback){
+                //console.log("channel id : " + channelid);
+                getMessagelData(function(data) {
+                    var messages = data.filter(function(entry){
+                        var theMessage = entry.message;
+                    return (theMessage.indexOf(searchText) >-1) ;
+                    });
+                    callback(messages);
+                });
+            },
             insertMessage: insertMessage,
             getUser: getUser,
             getChannelsByUserId: getChannelsByUserId,
@@ -158,6 +168,18 @@
         $scope.today = new Date();
 
         $scope.user = $sessionStorage.user;
+
+        $scope.searchMessage = function (){
+
+            dataservice.searchMessages($scope.searchText, function(messages) {
+                console.log('$scope.searchText : ' + $scope.searchText);
+                $scope.messages = messages;
+                cachedMessages=messages;
+            });
+            //console.log("$scope.searchText", $scope.searchText);
+            $scope.searchText="";
+            return;
+        };
 
         $scope.deactivateMessage = function (messageid){
             
@@ -243,14 +265,14 @@
         }
         
         getUserChannels(userData, channelid);
-
+        /*
         var timer = $interval(function(){
             getUserChannels(userData, channelid);
         },5000);
 
        $scope.$on('destroy', function (event) {
             $interval.cancel(timer);
-        });
+        });*/
 
         dataservice.listMessages(function(messages) {
           //console.log('list messages');
