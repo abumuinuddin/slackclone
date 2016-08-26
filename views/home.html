@@ -1,6 +1,50 @@
 
 <div class="container" style="font-size: 0.9em; ">
+
+<!-- Modal -->
+
+<div class="modal fade"  id="myModal" role="document" style="
+    position: absolate;
+    left: 40%;
+    top: 20%;
+    background-color: white; width:505px; height:390px" > 
     
+    <div class="modal-dialog" role="document" >
+        <!-- Modal content-->
+        <div class="modal-content"  >
+
+                <div class="modal-header" style="text-align: left;">
+                    <h5 class="modal-title" id="myModalLabel">Jump To a Conversation</h5>
+                </div>
+                
+                <div class="modal-body" >
+                    <div style="font-size: 0.9em; "><strong>Group Conversations:</strong><br /></div>
+                    <div ng-repeat="channel in channels | orderBy:'channelname'" >&nbsp;&nbsp;&nbsp;
+                        <i class="fa fa-users"></i>
+                        <a onclick="javaScript: $('#myModal').modal('hide');$('body').removeClass('modal-open');$('.modal-backdrop').remove();" 
+                            href="#/messages/{{channel.id}}/{{channel.channelname}}">&nbsp;{{channel.channelname}} ({{channel.numberofmessages}})</a>
+                    </div><br />
+
+                    <div style="font-size: 0.9em; "><strong>Private Conversations:</strong></div>
+                    <div ng-repeat="pChannel in pChannels | orderBy:'channelname'" >
+                        &nbsp;&nbsp;&nbsp;<a 
+                        onclick="javaScript: $('#myModal').modal('hide');$('body').removeClass('modal-open');$('.modal-backdrop').remove();"
+                        href="#/messages/{{pChannel.id}}/{{pChannel.channelname}}"><i class="fa fa-comments-o"></i>&nbsp;{{pChannel.channelname}} ({{pChannel.numberofmessages}})</a>
+                    </div>
+            </div>
+           
+            <div class="modal-footer" style="width:500px; " >
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+ 
+    </div>
+</div>
+
+<!--</div> -->
+    
+
+<div class="container" style="font-size: 0.9em;">
     <div class="col-sm-2" style="height:500px; background-color:#5C3A5B; color: white" >
         <ul class="nav nav-list">
             <li class="active">
@@ -19,7 +63,13 @@
             <li  ><i class="fa fa-lock"></i> <strong>DIRECT MESSAGES</strong></li>
             <div ng-repeat="pChannel in pChannels | orderBy:'channelname'" >&nbsp;&nbsp;&nbsp;<a href="#/messages/{{pChannel.id}}/{{pChannel.channelname}}"><i class="fa fa-comments-o"></i>&nbsp;{{pChannel.channelname}} ({{pChannel.numberofmessages}})</a></div>
         </ul>
+        <div style="position:fixed; width:160px; background-color:white; padding:5px; bottom:100px; ">
+            <a href="" data-toggle="modal" data-target="#myModal">
+                <i class="fa fa-bars" aria-hidden="true"></i><i class="fa fa-search" aria-hidden="true"></i>&nbsp;Quick Switcher
+            </a>
+        </div>
     </div>
+
     <div class="col-sm-7" >
 
         <form ng-submit="addName()">
@@ -111,6 +161,9 @@
                 </tr>
             </table>
         </form>
+
+
+
     </div>
   </div>
 </div>
